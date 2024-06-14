@@ -460,5 +460,898 @@ class etComParam:
     PHX_COM_GET_HANDLE = _PHX_ENUM(etPhxFn.PHX_COM, 0x0003)
     PHX_COM_GET_BOARD_CHAN_INDEX = _PHX_ENUM(etPhxFn.PHX_COM, 0x0004)
 
+class etParamValue:
+    PHX_INVALID_PARAMVALUE = 0
+
+    # Boolean flags
+    PHX_ENABLE = 1
+    PHX_DISABLE = 2
+
+    # PHX_COMMS_DATA
+    PHX_COMMS_DATA_5 = c_int(c_uint32(etParam.PHX_COMMS_DATA).value + 1).value
+    PHX_COMMS_DATA_6 = c_int(c_uint32(etParam.PHX_COMMS_DATA).value + 2).value
+    PHX_COMMS_DATA_7 = c_int(c_uint32(etParam.PHX_COMMS_DATA).value + 3).value
+    PHX_COMMS_DATA_8 = c_int(c_uint32(etParam.PHX_COMMS_DATA).value + 4).value
+
+    # PHX_COMMS_STOP
+    PHX_COMMS_STOP_1 = c_int(c_uint32(etParam.PHX_COMMS_STOP).value + 1).value
+    PHX_COMMS_STOP_1_5 = c_int(c_uint32(etParam.PHX_COMMS_STOP).value + 2).value
+    PHX_COMMS_STOP_2 = c_int(c_uint32(etParam.PHX_COMMS_STOP).value + 3).value
+
+    # PHX_COMMS_PARITY
+    PHX_COMMS_PARITY_NONE = c_int(c_uint32(etParam.PHX_COMMS_PARITY).value + 1).value
+    PHX_COMMS_PARITY_EVEN = c_int(c_uint32(etParam.PHX_COMMS_PARITY).value + 2).value
+    PHX_COMMS_PARITY_ODD = c_int(c_uint32(etParam.PHX_COMMS_PARITY).value + 3).value
+
+    # PHX_COMMS_FLOW
+    PHX_COMMS_FLOW_NONE = c_int(c_uint32(etParam.PHX_COMMS_FLOW).value + 1).value
+    PHX_COMMS_FLOW_HW = c_int(c_uint32(etParam.PHX_COMMS_FLOW).value + 2).value
+    PHX_COMMS_FLOW_SW = c_int(c_uint32(etParam.PHX_COMMS_FLOW).value + 3).value
+
+    # PHX_COMMS_STANDARD
+    PHX_COMMS_STANDARD_RS232 = c_int(c_uint32(etParam.PHX_COMMS_STANDARD).value + 1).value
+    PHX_COMMS_STANDARD_LVDS = c_int(c_uint32(etParam.PHX_COMMS_STANDARD).value + 2).value
+
+    # PHX_IO_OPTO_OUT_SET/CLR
+    PHX_IO_OPTO_OUT1 = 0x00000001
+    PHX_IO_OPTO_OUT2 = 0x00000002
+    PHX_IO_OPTO_OUT3 = 0x00000004
+    PHX_IO_OPTO_OUT4 = 0x00000008
+
+    # PHX_IO_OPTO_SET/CLR
+    PHX_IO_OPTO1 = 0x00000001
+    PHX_IO_OPTO2 = 0x00000002
+    PHX_IO_OPTO3 = 0x00000004
+    PHX_IO_OPTO4 = 0x00000008
+
+    # PHX_ACQ_STATUS
+    PHX_ACQ_STATUS_IDLE = c_int(c_uint32(etParam.PHX_ACQ_STATUS).value + 1).value
+    PHX_ACQ_STATUS_IN_PROGRESS = c_int(c_uint32(etParam.PHX_ACQ_STATUS).value + 2).value
+    PHX_ACQ_STATUS_WAITING_FOR_TRIGGER = c_int(c_uint32(etParam.PHX_ACQ_STATUS).value + 3).value
+
+    # PHX_CAM_TYPE
+    PHX_CAM_LINESCAN_ROI = c_int(c_uint32(etParam.PHX_CAM_TYPE).value + 1).value
+    PHX_CAM_LINESCAN_NO_ROI = c_int(c_uint32(etParam.PHX_CAM_TYPE).value + 2).value
+    PHX_CAM_AREASCAN_ROI = c_int(c_uint32(etParam.PHX_CAM_TYPE).value + 3).value
+    PHX_CAM_AREASCAN_NO_ROI = c_int(c_uint32(etParam.PHX_CAM_TYPE).value + 4).value
+    PHX_CAM_MULTILINESCAN_ROI = c_int(c_uint32(etParam.PHX_CAM_TYPE).value + 5).value
+
+    # PHX_CAM_FORMAT
+    PHX_CAM_INTERLACED = c_int(c_uint32(etParam.PHX_CAM_FORMAT).value + 1).value
+    PHX_CAM_NON_INTERLACED = c_int(c_uint32(etParam.PHX_CAM_FORMAT).value + 2).value
+
+    # PHX_CAM_SRC_COL
+    PHX_CAM_SRC_MONO = 0x00000001
+    PHX_CAM_SRC_RGB = 0x00000003
+    PHX_CAM_SRC_BAYER_RG = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 1).value
+    PHX_CAM_SRC_BAYER_GR = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 2).value
+    PHX_CAM_SRC_BAYER_GB = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 3).value
+    PHX_CAM_SRC_BAYER_BG = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 4).value
+    PHX_CAM_SRC_YUV422 = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 5).value
+    PHX_CAM_SRC_RGBA = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 6).value
+    PHX_CAM_SRC_RGBM = c_int(c_uint32(etParam.PHX_CAM_SRC_COL).value + 7).value
+
+    # PHX_CAM_HTAP_DIR
+    PHX_CAM_HTAP_LEFT = c_int(c_uint32(etParam.PHX_CAM_HTAP_DIR).value + 1).value
+    PHX_CAM_HTAP_RIGHT = c_int(c_uint32(etParam.PHX_CAM_HTAP_DIR).value + 2).value
+    PHX_CAM_HTAP_CONVERGE = c_int(c_uint32(etParam.PHX_CAM_HTAP_DIR).value + 3).value
+    PHX_CAM_HTAP_DIVERGE = c_int(c_uint32(etParam.PHX_CAM_HTAP_DIR).value + 4).value
+
+    # PHX_CAM_HTAP_TYPE
+    PHX_CAM_HTAP_LINEAR = c_int(c_uint32(etParam.PHX_CAM_HTAP_TYPE).value + 1).value
+    PHX_CAM_HTAP_OFFSET_1 = c_int(c_uint32(etParam.PHX_CAM_HTAP_TYPE).value + 2).value
+    PHX_CAM_HTAP_ALTERNATE = c_int(c_uint32(etParam.PHX_CAM_HTAP_TYPE).value + 3).value
+    PHX_CAM_HTAP_OFFSET_2 = c_int(c_uint32(etParam.PHX_CAM_HTAP_TYPE).value + 4).value
+    PHX_CAM_HTAP_SPAN = c_int(c_uint32(etParam.PHX_CAM_HTAP_TYPE).value + 5).value
+
+    # PHX_CAM_HTAP_ORDER
+    PHX_CAM_HTAP_ASCENDING = c_int(c_uint32(etParam.PHX_CAM_HTAP_ORDER).value + 1).value
+    PHX_CAM_HTAP_DESCENDING = c_int(c_uint32(etParam.PHX_CAM_HTAP_ORDER).value + 2).value
+
+    # PHX_CAM_VTAP_DIR
+    PHX_CAM_VTAP_TOP = c_int(c_uint32(etParam.PHX_CAM_VTAP_DIR).value + 1).value
+    PHX_CAM_VTAP_BOTTOM = c_int(c_uint32(etParam.PHX_CAM_VTAP_DIR).value + 2).value
+    PHX_CAM_VTAP_CONVERGE = c_int(c_uint32(etParam.PHX_CAM_VTAP_DIR).value + 3).value
+    PHX_CAM_VTAP_DIVERGE = c_int(c_uint32(etParam.PHX_CAM_VTAP_DIR).value + 4).value
+
+    # PHX_CAM_VTAP_TYPE
+    PHX_CAM_VTAP_LINEAR = c_int(c_uint32(etParam.PHX_CAM_VTAP_TYPE).value + 1).value
+    PHX_CAM_VTAP_OFFSET = c_int(c_uint32(etParam.PHX_CAM_VTAP_TYPE).value + 2).value
+    PHX_CAM_VTAP_ALTERNATE = c_int(c_uint32(etParam.PHX_CAM_VTAP_TYPE).value + 3).value
+
+    # PHX_CAM_VTAP_ORDER
+    PHX_CAM_VTAP_ASCENDING = c_int(c_uint32(etParam.PHX_CAM_VTAP_ORDER).value + 1).value
+    PHX_CAM_VTAP_DESCENDING = c_int(c_uint32(etParam.PHX_CAM_VTAP_ORDER).value + 2).value
+
+    # PHX_CAM_CLOCK_POLARITY
+    PHX_CAM_CLOCK_POS = c_int(c_uint32(etParam.PHX_CAM_CLOCK_POLARITY).value + 1).value
+    PHX_CAM_CLOCK_NEG = c_int(c_uint32(etParam.PHX_CAM_CLOCK_POLARITY).value + 2).value
+
+    # PHX_CAM_CLOCK_MAX
+    PHX_CAM_CLOCK_MAX_DEFAULT = c_int(c_uint32(etParam.PHX_CAM_CLOCK_MAX).value + 1).value
+    PHX_CAM_CLOCK_MAX_85MHZ = c_int(c_uint32(etParam.PHX_CAM_CLOCK_MAX).value + 2).value
+
+    # PHX_ACQ_TYPE
+    PHX_ACQ_FRAME_12 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 1).value
+    PHX_ACQ_FRAME_21 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 2).value
+    PHX_ACQ_FIELD_12 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 3).value
+    PHX_ACQ_FIELD_21 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 4).value
+    PHX_ACQ_FIELD_1 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 5).value
+    PHX_ACQ_FIELD_2 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 6).value
+    PHX_ACQ_FIELD_NEXT = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 7).value
+    PHX_ACQ_LINE_DOUBLE_12 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 8).value
+    PHX_ACQ_LINE_DOUBLE_21 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 9).value
+    PHX_ACQ_LINE_DOUBLE_NEXT = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 10).value
+    PHX_ACQ_LINE_DOUBLE_1 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 11).value
+    PHX_ACQ_LINE_DOUBLE_2 = c_int(c_uint32(etParam.PHX_ACQ_FIELD_MODE).value + 12).value
+
+    # PHX_ACQ_XSUB
+    PHX_ACQ_X1 = c_int(c_uint32(etParam.PHX_ACQ_XSUB).value + 1).value
+    PHX_ACQ_X2 = c_int(c_uint32(etParam.PHX_ACQ_XSUB).value + 2).value
+    PHX_ACQ_X4 = c_int(c_uint32(etParam.PHX_ACQ_XSUB).value + 3).value
+    PHX_ACQ_X8 = c_int(c_uint32(etParam.PHX_ACQ_XSUB).value + 4).value
+
+    # PHX_DST_PTR_TYPE
+    PHX_DST_PTR_INTERNAL = c_int(c_uint32(etParam.PHX_DST_PTR_TYPE).value + 1).value
+    PHX_DST_PTR_USER_VIRT = c_int(c_uint32(etParam.PHX_DST_PTR_TYPE).value + 2).value
+    PHX_DST_PTR_USER_PHYS = c_int(c_uint32(etParam.PHX_DST_PTR_TYPE).value + 3).value
+    PHX_DST_PTR_USER_CUDA = c_int(c_uint32(etParam.PHX_DST_PTR_TYPE).value + 4).value
+
+    # PHX_DATASTREAM_VALID
+    PHX_DATASTREAM_ALWAYS = c_int(c_uint32(etParam.PHX_DATASTREAM_VALID).value + 1).value
+    PHX_DATASTREAM_LINE_ONLY = c_int(c_uint32(etParam.PHX_DATASTREAM_VALID).value + 2).value
+    PHX_DATASTREAM_FRAME_ONLY = c_int(c_uint32(etParam.PHX_DATASTREAM_VALID).value + 3).value
+    PHX_DATASTREAM_FRAME_AND_LINE = c_int(c_uint32(etParam.PHX_DATASTREAM_VALID).value + 4).value
+
+    # PHX_DATASRC
+    PHX_DATASRC_CAMERA = c_int(c_uint32(etParam.PHX_DATASRC).value + 1).value
+    PHX_DATASRC_SIMULATOR_STATIC = c_int(c_uint32(etParam.PHX_DATASRC).value + 2).value
+    PHX_DATASRC_SIMULATOR_ROLL = c_int(c_uint32(etParam.PHX_DATASRC).value + 3).value
+    PHX_DATASRC_SIMULATOR_PRBS = c_int(c_uint32(etParam.PHX_DATASRC).value + 4).value
+
+    # PHX_BUS_FORMAT
+    PHX_BUS_FORMAT_MONO8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 1).value
+    PHX_BUS_FORMAT_MONO16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 2).value
+    PHX_BUS_FORMAT_MONO32 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 3).value
+    PHX_BUS_FORMAT_MONO36 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 4).value
+    PHX_BUS_FORMAT_BGR5 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 5).value
+    PHX_BUS_FORMAT_BGR565 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 6).value
+    PHX_BUS_FORMAT_XBGR8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 7).value
+    PHX_BUS_FORMAT_BGRX8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 8).value
+    PHX_BUS_FORMAT_BGR16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 9).value
+    PHX_BUS_FORMAT_RGB5 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 10).value
+    PHX_BUS_FORMAT_RGB565 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 11).value
+    PHX_BUS_FORMAT_XRGB8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 12).value
+    PHX_BUS_FORMAT_RGBX8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 13).value
+    PHX_BUS_FORMAT_RGB16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 14).value
+    PHX_BUS_FORMAT_BGR101210 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 15).value
+    PHX_BUS_FORMAT_RGB101210 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 16).value
+    PHX_BUS_FORMAT_BGR8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 17).value
+    PHX_BUS_FORMAT_RGB8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 18).value
+    PHX_BUS_FORMAT_MONO10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 19).value
+    PHX_BUS_FORMAT_MONO12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 20).value
+    PHX_BUS_FORMAT_MONO14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 21).value
+    PHX_DST_FORMAT_BAY8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 22).value
+    PHX_DST_FORMAT_BAY10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 23).value
+    PHX_DST_FORMAT_BAY12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 24).value
+    PHX_DST_FORMAT_BAY14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 25).value
+    PHX_DST_FORMAT_BAY16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 26).value
+    PHX_DST_FORMAT_2Y12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 27).value
+    PHX_BUS_FORMAT_BGR12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 28).value
+    PHX_BUS_FORMAT_RGB12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 29).value
+    PHX_BUS_FORMAT_YUV422_8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 30).value
+    PHX_DST_FORMAT_Y12B = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 31).value
+    PHX_BUS_FORMAT_RGB8_PLANAR = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 32).value
+    PHX_BUS_FORMAT_MONO10P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 33).value
+    PHX_BUS_FORMAT_MONO14P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 34).value
+    PHX_BUS_FORMAT_RGBA8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 35).value
+    PHX_BUS_FORMAT_RGBA10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 36).value
+    PHX_BUS_FORMAT_RGBA12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 37).value
+    PHX_BUS_FORMAT_RGBA14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 38).value
+    PHX_BUS_FORMAT_RGBA16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 39).value
+    PHX_BUS_FORMAT_BAYER_GR8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 40).value
+    PHX_BUS_FORMAT_BAYER_RG8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 41).value
+    PHX_BUS_FORMAT_BAYER_GB8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 42).value
+    PHX_BUS_FORMAT_BAYER_BG8 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 43).value
+    PHX_BUS_FORMAT_BAYER_GR10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 44).value
+    PHX_BUS_FORMAT_BAYER_RG10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 45).value
+    PHX_BUS_FORMAT_BAYER_GB10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 46).value
+    PHX_BUS_FORMAT_BAYER_BG10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 47).value
+    PHX_BUS_FORMAT_BAYER_GR12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 48).value
+    PHX_BUS_FORMAT_BAYER_RG12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 49).value
+    PHX_BUS_FORMAT_BAYER_GB12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 50).value
+    PHX_BUS_FORMAT_BAYER_BG12 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 51).value
+    PHX_BUS_FORMAT_BAYER_GR14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 52).value
+    PHX_BUS_FORMAT_BAYER_RG14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 53).value
+    PHX_BUS_FORMAT_BAYER_GB14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 54).value
+    PHX_BUS_FORMAT_BAYER_BG14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 55).value
+    PHX_BUS_FORMAT_BAYER_GR16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 56).value
+    PHX_BUS_FORMAT_BAYER_RG16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 57).value
+    PHX_BUS_FORMAT_BAYER_GB16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 58).value
+    PHX_BUS_FORMAT_BAYER_BG16 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 59).value
+    PHX_BUS_FORMAT_BGR10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 60).value
+    PHX_BUS_FORMAT_RGB10 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 61).value
+    PHX_BUS_FORMAT_BGR14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 62).value
+    PHX_BUS_FORMAT_RGB14 = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 63).value
+    PHX_BUS_FORMAT_MONO12P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 64).value
+    PHX_BUS_FORMAT_BAYER_GR10P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 65).value
+    PHX_BUS_FORMAT_BAYER_RG10P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 66).value
+    PHX_BUS_FORMAT_BAYER_GB10P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 67).value
+    PHX_BUS_FORMAT_BAYER_BG10P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 68).value
+    PHX_BUS_FORMAT_BAYER_GR12P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 69).value
+    PHX_BUS_FORMAT_BAYER_RG12P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 70).value
+    PHX_BUS_FORMAT_BAYER_GB12P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 71).value
+    PHX_BUS_FORMAT_BAYER_BG12P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 72).value
+    PHX_BUS_FORMAT_BAYER_GR14P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 73).value
+    PHX_BUS_FORMAT_BAYER_RG14P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 74).value
+    PHX_BUS_FORMAT_BAYER_GB14P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 75).value
+    PHX_BUS_FORMAT_BAYER_BG14P = c_int(c_uint32(etParam.PHX_BUS_FORMAT).value + 76).value
+
+    # PHX_USR_FORMAT
+    PHX_USR_FORMAT_MONO8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 1).value
+    PHX_USR_FORMAT_MONO16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 2).value
+    PHX_USR_FORMAT_MONO32 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 3).value
+    PHX_USR_FORMAT_MONO36 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 4).value
+    PHX_USR_FORMAT_BGR5 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 5).value
+    PHX_USR_FORMAT_BGR565 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 6).value
+    PHX_USR_FORMAT_XBGR8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 7).value
+    PHX_USR_FORMAT_BGRX8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 8).value
+    PHX_USR_FORMAT_BGR16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 9).value
+    PHX_USR_FORMAT_RGB5 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 10).value
+    PHX_USR_FORMAT_RGB565 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 11).value
+    PHX_USR_FORMAT_XRGB8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 12).value
+    PHX_USR_FORMAT_RGBX8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 13).value
+    PHX_USR_FORMAT_RGB16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 14).value
+    PHX_USR_FORMAT_BGR101210 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 15).value
+    PHX_USR_FORMAT_RGB101210 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 16).value
+    PHX_USR_FORMAT_BGR8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 17).value
+    PHX_USR_FORMAT_RGB8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 18).value
+    PHX_USR_FORMAT_MONO10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 19).value
+    PHX_USR_FORMAT_MONO12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 20).value
+    PHX_USR_FORMAT_MONO14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 21).value
+    PHX_USER_FORMAT_BAY8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 22).value
+    PHX_USER_FORMAT_BAY10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 23).value
+    PHX_USER_FORMAT_BAY12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 24).value
+    PHX_USER_FORMAT_BAY14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 25).value
+    PHX_USER_FORMAT_BAY16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 26).value
+    PHX_USER_FORMAT_2Y12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 27).value
+    PHX_USR_FORMAT_BGR12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 28).value
+    PHX_USR_FORMAT_RGB12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 29).value
+    PHX_USR_FORMAT_YUV422_8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 30).value
+    PHX_USER_FORMAT_Y12B = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 31).value
+    PHX_USR_FORMAT_RGB8_PLANAR = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 32).value
+    PHX_USR_FORMAT_MONO10P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 33).value
+    PHX_USR_FORMAT_MONO14P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 34).value
+    PHX_USR_FORMAT_RGBA8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 35).value
+    PHX_USR_FORMAT_RGBA10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 36).value
+    PHX_USR_FORMAT_RGBA12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 37).value
+    PHX_USR_FORMAT_RGBA14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 38).value
+    PHX_USR_FORMAT_RGBA16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 39).value
+    PHX_USR_FORMAT_BAYER_GR8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 40).value
+    PHX_USR_FORMAT_BAYER_RG8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 41).value
+    PHX_USR_FORMAT_BAYER_GB8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 42).value
+    PHX_USR_FORMAT_BAYER_BG8 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 43).value
+    PHX_USR_FORMAT_BAYER_GR10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 44).value
+    PHX_USR_FORMAT_BAYER_RG10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 45).value
+    PHX_USR_FORMAT_BAYER_GB10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 46).value
+    PHX_USR_FORMAT_BAYER_BG10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 47).value
+    PHX_USR_FORMAT_BAYER_GR12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 48).value
+    PHX_USR_FORMAT_BAYER_RG12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 49).value
+    PHX_USR_FORMAT_BAYER_GB12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 50).value
+    PHX_USR_FORMAT_BAYER_BG12 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 51).value
+    PHX_USR_FORMAT_BAYER_GR14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 52).value
+    PHX_USR_FORMAT_BAYER_RG14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 53).value
+    PHX_USR_FORMAT_BAYER_GB14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 54).value
+    PHX_USR_FORMAT_BAYER_BG14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 55).value
+    PHX_USR_FORMAT_BAYER_GR16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 56).value
+    PHX_USR_FORMAT_BAYER_RG16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 57).value
+    PHX_USR_FORMAT_BAYER_GB16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 58).value
+    PHX_USR_FORMAT_BAYER_BG16 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 59).value
+    PHX_USR_FORMAT_BGR10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 60).value
+    PHX_USR_FORMAT_RGB10 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 61).value
+    PHX_USR_FORMAT_BGR14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 62).value
+    PHX_USR_FORMAT_RGB14 = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 63).value
+    PHX_USR_FORMAT_MONO12P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 64).value
+    PHX_USR_FORMAT_BAYER_GR10P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 65).value
+    PHX_USR_FORMAT_BAYER_RG10P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 66).value
+    PHX_USR_FORMAT_BAYER_GB10P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 67).value
+    PHX_USR_FORMAT_BAYER_BG10P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 68).value
+    PHX_USR_FORMAT_BAYER_GR12P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 69).value
+    PHX_USR_FORMAT_BAYER_RG12P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 70).value
+    PHX_USR_FORMAT_BAYER_GB12P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 71).value
+    PHX_USR_FORMAT_BAYER_BG12P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 72).value
+    PHX_USR_FORMAT_BAYER_GR14P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 73).value
+    PHX_USR_FORMAT_BAYER_RG14P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 74).value
+    PHX_USR_FORMAT_BAYER_GB14P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 75).value
+    PHX_USR_FORMAT_BAYER_BG14P = c_int(c_uint32(etParam.PHX_USR_FORMAT).value + 76).value
+
+
+    PHX_LINETRIG_NONE = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 1).value
+    PHX_LINETRIG_AUXIN_1_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 2).value
+    PHX_LINETRIG_AUXIN_1_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 3).value
+    PHX_LINETRIG_CTRLIN_2_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 4).value
+    PHX_LINETRIG_CTRLIN_2_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 5).value
+    PHX_LINETRIG_AUXIN_2_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 6).value
+    PHX_LINETRIG_AUXIN_2_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 7).value
+    PHX_LINETRIG_TIMER = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 8).value
+    PHX_LINETRIG_AUXIN_A1_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 9).value
+    PHX_LINETRIG_AUXIN_A1_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 10).value
+    PHX_LINETRIG_AUXIN_A2_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 11).value
+    PHX_LINETRIG_AUXIN_A2_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 12).value
+    PHX_LINETRIG_AUXIN_B1_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 13).value
+    PHX_LINETRIG_AUXIN_B1_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 14).value
+    PHX_LINETRIG_AUXIN_B2_RISING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 15).value
+    PHX_LINETRIG_AUXIN_B2_FALLING = c_int(c_uint32(etParam.PHX_LINETRIG_SRC).value + 16).value
+
+    # PHX_LINETRIG_TIMER_CTRL
+    PHX_LINETRIG_TIMER_TIME = c_int(c_uint32(etParam.PHX_LINETRIG_TIMER_CTRL).value + 1).value
+    PHX_LINETRIG_TIMER_DISABLE = c_int(c_uint32(etParam.PHX_LINETRIG_TIMER_CTRL).value + 2).value
+    PHX_LINETRIG_TIMER_LINES = c_int(c_uint32(etParam.PHX_LINETRIG_TIMER_CTRL).value + 3).value
+
+    # PHX_CAMTRIG_SRC
+    PHX_CAMTRIG_SRC_LINETRIG = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 1).value
+    PHX_CAMTRIG_SRC_FGTRIGA_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 2).value
+    PHX_CAMTRIG_SRC_NONE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 3).value
+    PHX_CAMTRIG_SRC_SWTRIG_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 4).value
+    PHX_CAMTRIG_SRC_AUXIN_1_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 5).value
+    PHX_CAMTRIG_SRC_AUXIN_1_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 6).value
+    PHX_CAMTRIG_SRC_AUXIN_2_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 7).value
+    PHX_CAMTRIG_SRC_AUXIN_2_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 8).value
+    PHX_CAMTRIG_SRC_TIMERA1_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 9).value
+    PHX_CAMTRIG_SRC_AUXIN_A1_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 10).value
+    PHX_CAMTRIG_SRC_AUXIN_A1_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 11).value
+    PHX_CAMTRIG_SRC_AUXIN_A2_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 12).value
+    PHX_CAMTRIG_SRC_AUXIN_A2_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 13).value
+    PHX_CAMTRIG_SRC_AUXIN_B1_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 14).value
+    PHX_CAMTRIG_SRC_AUXIN_B1_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 15).value
+    PHX_CAMTRIG_SRC_AUXIN_B2_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 16).value
+    PHX_CAMTRIG_SRC_AUXIN_B2_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 17).value
+    PHX_CAMTRIG_SRC_FGTRIGA_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 18).value
+    PHX_CAMTRIG_SRC_FGTRIGA_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 19).value
+    PHX_CAMTRIG_SRC_FGTRIGA_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 20).value
+    PHX_CAMTRIG_SRC_FGTRIGA_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 21).value
+    PHX_CAMTRIG_SRC_SWTRIG_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 22).value
+    PHX_CAMTRIG_SRC_SWTRIG_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 23).value
+    PHX_CAMTRIG_SRC_SWTRIG_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 24).value
+    PHX_CAMTRIG_SRC_SWTRIG_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 25).value
+    PHX_CAMTRIG_SRC_TIMERA1_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 26).value
+    PHX_CAMTRIG_SRC_TIMERA1_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 27).value
+    PHX_CAMTRIG_SRC_TIMERA1_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 28).value
+    PHX_CAMTRIG_SRC_TIMERA1_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 29).value
+    PHX_CAMTRIG_SRC_422IN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 30).value
+    PHX_CAMTRIG_SRC_422IN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 31).value
+    PHX_CAMTRIG_SRC_422IN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 32).value
+    PHX_CAMTRIG_SRC_422IN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 33).value
+    PHX_CAMTRIG_SRC_422IN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 34).value
+    PHX_CAMTRIG_SRC_422IN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 35).value
+    PHX_CAMTRIG_SRC_422IN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 36).value
+    PHX_CAMTRIG_SRC_422IN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 37).value
+    PHX_CAMTRIG_SRC_422IN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 38).value
+    PHX_CAMTRIG_SRC_422IN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 39).value
+    PHX_CAMTRIG_SRC_OPTOIN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 40).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 41).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 42).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 43).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 44).value
+    PHX_CAMTRIG_SRC_OPTOIN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 45).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 46).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 47).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 48).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 49).value
+    PHX_CAMTRIG_SRC_TTLIN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 50).value
+    PHX_CAMTRIG_SRC_TTLIN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 51).value
+    PHX_CAMTRIG_SRC_TTLIN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 52).value
+    PHX_CAMTRIG_SRC_TTLIN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 53).value
+    PHX_CAMTRIG_SRC_TTLIN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 54).value
+    PHX_CAMTRIG_SRC_TTLIN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 55).value
+    PHX_CAMTRIG_SRC_TTLIN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 56).value
+    PHX_CAMTRIG_SRC_TTLIN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 57).value
+    PHX_CAMTRIG_SRC_TTLIN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 58).value
+    PHX_CAMTRIG_SRC_TTLIN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 59).value
+    PHX_CAMTRIG_SRC_ENCODER_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 60).value
+    PHX_CAMTRIG_SRC_ENCODER_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 61).value
+    PHX_CAMTRIG_SRC_ENCODER_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 62).value
+    PHX_CAMTRIG_SRC_ENCODER_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 63).value
+    PHX_CAMTRIG_SRC_ENCODER_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 64).value
+    PHX_CAMTRIG_SRC_24VIN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 65).value
+    PHX_CAMTRIG_SRC_24VIN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 66).value
+    PHX_CAMTRIG_SRC_24VIN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 67).value
+    PHX_CAMTRIG_SRC_24VIN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 68).value
+    PHX_CAMTRIG_SRC_24VIN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 69).value
+    PHX_CAMTRIG_SRC_24VIN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 70).value
+    PHX_CAMTRIG_SRC_24VIN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 71).value
+    PHX_CAMTRIG_SRC_24VIN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 72).value
+    PHX_CAMTRIG_SRC_24VIN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 73).value
+    PHX_CAMTRIG_SRC_24VIN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 74).value
+    PHX_CAMTRIG_SRC_24VIN_CH5_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 75).value
+    PHX_CAMTRIG_SRC_24VIN_CH5_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 76).value
+    PHX_CAMTRIG_SRC_24VIN_CH6_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 77).value
+    PHX_CAMTRIG_SRC_24VIN_CH6_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 78).value
+    PHX_CAMTRIG_SRC_24VIN_CH7_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 79).value
+    PHX_CAMTRIG_SRC_24VIN_CH7_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 80).value
+    PHX_CAMTRIG_SRC_24VIN_CH8_0_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 81).value
+    PHX_CAMTRIG_SRC_24VIN_CH8_0_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_SRC).value + 82).value
+
+    # PHX_CAMTRIG_ENCODER_MODE
+    PHX_CAMTRIG_ENCODER_MODE1 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_MODE).value + 1).value
+    PHX_CAMTRIG_ENCODER_MODE2 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_MODE).value + 2).value
+    PHX_CAMTRIG_ENCODER_MODE3 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_MODE).value + 3).value
+    PHX_CAMTRIG_ENCODER_MODE4 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_MODE).value + 4).value
+    PHX_CAMTRIG_ENCODER_MODE5 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_MODE).value + 5).value
+
+    # PHX_CAMTRIG_ENCODER_SRC
+    PHX_CAMTRIG_SRC_422IN_CHX_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 1).value
+    PHX_CAMTRIG_SRC_422IN_CH1_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 2).value
+    PHX_CAMTRIG_SRC_422IN_CH2_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 3).value
+    PHX_CAMTRIG_SRC_422IN_CH3_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 4).value
+    PHX_CAMTRIG_SRC_422IN_CH4_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 5).value
+    PHX_CAMTRIG_SRC_OPTOIN_CHX_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 6).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH1_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 7).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH2_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 8).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH3_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 9).value
+    PHX_CAMTRIG_SRC_OPTOIN_CH4_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 10).value
+    PHX_CAMTRIG_SRC_TTLIN_CHX_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 11).value
+    PHX_CAMTRIG_SRC_TTLIN_CH1_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 12).value
+    PHX_CAMTRIG_SRC_TTLIN_CH2_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 13).value
+    PHX_CAMTRIG_SRC_TTLIN_CH3_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 14).value
+    PHX_CAMTRIG_SRC_TTLIN_CH4_0 = c_int(c_uint32(etParam.PHX_CAMTRIG_ENCODER_SRC).value + 15).value
+
+    # PHX_CAMTRIG_DELAY_MODE
+    PHX_CAMTRIG_DELAY_NONE = c_int(c_uint32(etParam.PHX_CAMTRIG_DELAY_MODE).value + 1).value
+    PHX_CAMTRIG_DELAY_TIME = c_int(c_uint32(etParam.PHX_CAMTRIG_DELAY_MODE).value + 2).value
+    PHX_CAMTRIG_DELAY_LINE = c_int(c_uint32(etParam.PHX_CAMTRIG_DELAY_MODE).value + 3).value
+
+    # PHX_CAMTRIG_CXPTRIG_SRC
+    PHX_CAMTRIG_CXPTRIG_NONE = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 1).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM1_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 2).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM1_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 3).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM1_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 4).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM1_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 5).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM1_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 6).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM2_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 7).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM2_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 8).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM2_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 9).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM2_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 10).value
+    PHX_CAMTRIG_CXPTRIG_TIMERM2_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 11).value
+    PHX_CAMTRIG_CXPTRIG_SW_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 12).value
+    PHX_CAMTRIG_CXPTRIG_SW_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 13).value
+    PHX_CAMTRIG_CXPTRIG_FGTRIGD_CHX = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 14).value
+    PHX_CAMTRIG_CXPTRIG_FGTRIGD_CH1 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 15).value
+    PHX_CAMTRIG_CXPTRIG_FGTRIGD_CH2 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 16).value
+    PHX_CAMTRIG_CXPTRIG_FGTRIGD_CH3 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 17).value
+    PHX_CAMTRIG_CXPTRIG_FGTRIGD_CH4 = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_SRC).value + 18).value
+
+    # PHX_CAMTRIG_CXPTRIG_MODE
+    PHX_CAMTRIG_CXPTRIG_RISEFALL = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_MODE).value + 1).value
+    PHX_CAMTRIG_CXPTRIG_RISEFALL_INV = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_MODE).value + 2).value
+    PHX_CAMTRIG_CXPTRIG_RISE = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_MODE).value + 3).value
+    PHX_CAMTRIG_CXPTRIG_RISE_INV = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_MODE).value + 4).value
+    PHX_CAMTRIG_CXPTRIG_FALL = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_MODE).value + 5).value
+    PHX_CAMTRIG_CXPTRIG_FALL_INV = c_int(c_uint32(etParam.PHX_CAMTRIG_CXPTRIG_MODE).value + 6).value
+
+    # PHX_EXP_CTRLIO_1
+    PHX_EXP_CTRLIO_1_HW_POS = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_1).value + 1).value
+    PHX_EXP_CTRLIO_1_HW_NEG = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_1).value + 2).value
+    PHX_EXP_CTRLIO_1_SW_POS = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_1).value + 3).value
+    PHX_EXP_CTRLIO_1_SW_NEG = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_1).value + 4).value
+
+    # PHX_EXP_CTRLIO_2
+    PHX_EXP_CTRLIO_2_HW_POS = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_2).value + 1).value
+    PHX_EXP_CTRLIO_2_HW_NEG = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_2).value + 2).value
+    PHX_EXP_CTRLIO_2_SW_POS = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_2).value + 3).value
+    PHX_EXP_CTRLIO_2_SW_NEG = c_int(c_uint32(etParam.PHX_EXP_CTRLIO_2).value + 4).value
+
+    # PHX_EXP_LINESTART
+    PHX_EXP_LINESTART_LINE = c_int(c_uint32(etParam.PHX_EXP_LINESTART).value + 1).value
+    PHX_EXP_LINESTART_CCIO_2 = c_int(c_uint32(etParam.PHX_EXP_LINESTART).value + 2).value
+    PHX_EXP_LINESTART_CCIO_A2 = c_int(c_uint32(etParam.PHX_EXP_LINESTART).value + 3).value
+    PHX_EXP_LINESTART_CCIO_B2 = c_int(c_uint32(etParam.PHX_EXP_LINESTART).value + 4).value
+
+    # PHX_FGTRIG_SRC
+    PHX_FGTRIG_SRC_OPTO_A1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 1).value
+    PHX_FGTRIG_SRC_OPTO_A2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 2).value
+    PHX_FGTRIG_SRC_OPTO_B1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 3).value
+    PHX_FGTRIG_SRC_OPTO_B2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 4).value
+    PHX_FGTRIG_SRC_CTRLIN_A1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 5).value
+    PHX_FGTRIG_SRC_CTRLIN_A2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 6).value
+    PHX_FGTRIG_SRC_CTRLIN_A3 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 7).value
+    PHX_FGTRIG_SRC_CTRLIN_B1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 8).value
+    PHX_FGTRIG_SRC_CTRLIN_B2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 9).value
+    PHX_FGTRIG_SRC_CTRLIN_B3 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 10).value
+    PHX_FGTRIG_SRC_CCIO_A1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 11).value
+    PHX_FGTRIG_SRC_CCIO_A2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 12).value
+    PHX_FGTRIG_SRC_CCIO_B1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 13).value
+    PHX_FGTRIG_SRC_CCIO_B2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 14).value
+    PHX_FGTRIG_SRC_AUXIN_A1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 15).value
+    PHX_FGTRIG_SRC_AUXIN_A2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 16).value
+    PHX_FGTRIG_SRC_AUXIN_B1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 17).value
+    PHX_FGTRIG_SRC_AUXIN_B2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 18).value
+    PHX_FGTRIG_SRC_OPTO_1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 19).value
+    PHX_FGTRIG_SRC_OPTO_2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 20).value
+    PHX_FGTRIG_SRC_AUXIN_1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 21).value
+    PHX_FGTRIG_SRC_AUXIN_2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 22).value
+    PHX_FGTRIG_SRC_CTRLIN_1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 23).value
+    PHX_FGTRIG_SRC_CTRLIN_2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 24).value
+    PHX_FGTRIG_SRC_CTRLIN_3 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 25).value
+    PHX_FGTRIG_SRC_CCIO_1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 26).value
+    PHX_FGTRIG_SRC_CCIO_2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 27).value
+    PHX_FGTRIG_SRC_TIMERA1_CHX = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 28).value
+    PHX_FGTRIG_SRC_TIMERA1_CH1 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 29).value
+    PHX_FGTRIG_SRC_TIMERA1_CH2 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 30).value
+    PHX_FGTRIG_SRC_TIMERA1_CH3 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 31).value
+    PHX_FGTRIG_SRC_TIMERA1_CH4 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 32).value
+    PHX_FGTRIG_SRC_422IN_CHX_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 33).value
+    PHX_FGTRIG_SRC_422IN_CH1_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 34).value
+    PHX_FGTRIG_SRC_422IN_CH2_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 35).value
+    PHX_FGTRIG_SRC_422IN_CH3_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 36).value
+    PHX_FGTRIG_SRC_422IN_CH4_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 37).value
+    PHX_FGTRIG_SRC_OPTOIN_CHX_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 38).value
+    PHX_FGTRIG_SRC_OPTOIN_CH1_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 39).value
+    PHX_FGTRIG_SRC_OPTOIN_CH2_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 40).value
+    PHX_FGTRIG_SRC_OPTOIN_CH3_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 41).value
+    PHX_FGTRIG_SRC_OPTOIN_CH4_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 42).value
+    PHX_FGTRIG_SRC_TTLIN_CHX_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 43).value
+    PHX_FGTRIG_SRC_TTLIN_CH1_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 44).value
+    PHX_FGTRIG_SRC_TTLIN_CH2_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 45).value
+    PHX_FGTRIG_SRC_TTLIN_CH3_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 46).value
+    PHX_FGTRIG_SRC_TTLIN_CH4_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 47).value
+    PHX_FGTRIG_SRC_24VIN_CHX_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 48).value
+    PHX_FGTRIG_SRC_24VIN_CH1_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 49).value
+    PHX_FGTRIG_SRC_24VIN_CH2_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 50).value
+    PHX_FGTRIG_SRC_24VIN_CH3_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 51).value
+    PHX_FGTRIG_SRC_24VIN_CH4_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 52).value
+    PHX_FGTRIG_SRC_24VIN_CH5_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 53).value
+    PHX_FGTRIG_SRC_24VIN_CH6_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 54).value
+    PHX_FGTRIG_SRC_24VIN_CH7_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 55).value
+    PHX_FGTRIG_SRC_24VIN_CH8_0 = c_int(c_uint32(etParam.PHX_FGTRIG_SRC).value + 56).value
+
+    # PHX_FGTRIG_MODE
+    PHX_FGTRIG_FREERUN = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 1).value
+    PHX_FGTRIG_FIRST_POS_EDGE = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 2).value
+    PHX_FGTRIG_FIRST_NEG_EDGE = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 3).value
+    PHX_FGTRIG_EACH_POS_EDGE = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 4).value
+    PHX_FGTRIG_EACH_NEG_EDGE = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 5).value
+    PHX_FGTRIG_FIRST_POS_LEVEL = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 6).value
+    PHX_FGTRIG_FIRST_NEG_LEVEL = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 7).value
+    PHX_FGTRIG_EACH_POS_LEVEL = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 8).value
+    PHX_FGTRIG_EACH_NEG_LEVEL = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 9).value
+    PHX_FGTRIG_GATED_POS_LEVEL = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 10).value
+    PHX_FGTRIG_GATED_NEG_LEVEL = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 11).value
+    PHX_FGTRIG_EACH_POS_EDGE_NR = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 12).value
+    PHX_FGTRIG_EACH_NEG_EDGE_NR = c_int(c_uint32(etParam.PHX_FGTRIG_MODE).value + 13).value
+
+    # PHX_FGTRIG_ALIGN
+    PHX_FGTRIG_ALIGN_NONE = c_int(c_uint32(etParam.PHX_FGTRIG_ALIGN).value + 1).value
+    PHX_FGTRIG_ALIGN_TO_CLK = c_int(c_uint32(etParam.PHX_FGTRIG_ALIGN).value + 2).value
+    PHX_FGTRIG_ALIGN_TO_LINE = c_int(c_uint32(etParam.PHX_FGTRIG_ALIGN).value + 3).value
+    PHX_FGTRIG_ALIGN_TO_FRAME = c_int(c_uint32(etParam.PHX_FGTRIG_ALIGN).value + 4).value
+
+    # PHX_FGTRIG_DELAY_MODE
+    PHX_FGTRIG_DELAY_NONE = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 1).value
+    PHX_FGTRIG_DELAY_LINE = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 2).value
+    PHX_FGTRIG_DELAY_TIME = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 3).value
+    PHX_FGTRIG_DELAY_TIMERM1_CHX = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 4).value
+    PHX_FGTRIG_DELAY_TIMERM1_CH1 = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 5).value
+    PHX_FGTRIG_DELAY_TIMERM1_CH2 = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 6).value
+    PHX_FGTRIG_DELAY_TIMERM1_CH3 = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 7).value
+    PHX_FGTRIG_DELAY_TIMERM1_CH4 = c_int(c_uint32(etParam.PHX_FGTRIG_DELAY_MODE).value + 8).value
+
+    # PHX_TIMERA1_MODE
+    PHX_TIMERA1_MODE_RUN = c_int(c_uint32(etParam.PHX_TIMERA1_MODE).value + 1).value
+    PHX_TIMERA1_MODE_N_PULSES = c_int(c_uint32(etParam.PHX_TIMERA1_MODE).value + 2).value
+    PHX_TIMERA1_MODE_STOP = c_int(c_uint32(etParam.PHX_TIMERA1_MODE).value + 3).value
+    PHX_TIMERA1_MODE_ABORT = c_int(c_uint32(etParam.PHX_TIMERA1_MODE).value + 4).value
+
+    # PHX_TIMERA1_TRIG_SRC
+    PHX_TIMERA1_TRIG_SRC_NONE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 1).value
+    PHX_TIMERA1_TRIG_SRC_SWTRIG_CHX = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 2).value
+    PHX_TIMERA1_TRIG_SRC_SWTRIG_CH1 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 3).value
+    PHX_TIMERA1_TRIG_SRC_SWTRIG_CH2 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 4).value
+    PHX_TIMERA1_TRIG_SRC_SWTRIG_CH3 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 5).value
+    PHX_TIMERA1_TRIG_SRC_SWTRIG_CH4 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 6).value
+    PHX_TIMERA1_TRIG_SRC_TIMERA1_CH1 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 7).value
+    PHX_TIMERA1_TRIG_SRC_TIMERA1_CH2 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 8).value
+    PHX_TIMERA1_TRIG_SRC_TIMERA1_CH3 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 9).value
+    PHX_TIMERA1_TRIG_SRC_TIMERA1_CH4 = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 10).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 11).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 12).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 13).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 14).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 15).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 16).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 17).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 18).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 19).value
+    PHX_TIMERA1_TRIG_SRC_422IN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 20).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 21).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 22).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 23).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 24).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 25).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 26).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 27).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 28).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 29).value
+    PHX_TIMERA1_TRIG_SRC_OPTOIN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 30).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 31).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 32).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 33).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 34).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 35).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 36).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 37).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 38).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 39).value
+    PHX_TIMERA1_TRIG_SRC_TTLIN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 40).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CHX_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 41).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CHX_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 42).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH1_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 43).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH1_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 44).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH2_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 45).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH2_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 46).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH3_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 47).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH3_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 48).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH4_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 49).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH4_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 50).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH5_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 51).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH5_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 52).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH6_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 53).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH6_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 54).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH7_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 55).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH7_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 56).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH8_0_RISE = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 57).value
+    PHX_TIMERA1_TRIG_SRC_24VIN_CH8_0_FALL = c_int(c_uint32(etParam.PHX_TIMERA1_TRIG_SRC).value + 58).value
+
+
+    # PHX_IMAGE_TIMESTAMP_MODE
+    PHX_IMAGE_TIMESTAMP_NONE = c_int(c_uint32(etParam.PHX_IMAGE_TIMESTAMP_MODE).value + 1).value
+    PHX_IMAGE_TIMESTAMP_MODE1 = c_int(c_uint32(etParam.PHX_IMAGE_TIMESTAMP_MODE).value + 2).value
+    PHX_IMAGE_TIMESTAMP_MODE2 = c_int(c_uint32(etParam.PHX_IMAGE_TIMESTAMP_MODE).value + 3).value
+
+    # PHX_EVENTCOUNT_SRC
+    PHX_EVENTCOUNT_LINE = c_int(c_uint32(etParam.PHX_EVENTCOUNT_SRC).value + 1).value
+    PHX_EVENTCOUNT_FRAME = c_int(c_uint32(etParam.PHX_EVENTCOUNT_SRC).value + 2).value
+    PHX_EVENTCOUNT_TIME = c_int(c_uint32(etParam.PHX_EVENTCOUNT_SRC).value + 3).value
+
+    # PHX_EVENTGATE_SRC
+    PHX_EVENTGATE_ACQTRIG = c_int(c_uint32(etParam.PHX_EVENTGATE_SRC).value + 1).value
+    PHX_EVENTGATE_FRAME = c_int(c_uint32(etParam.PHX_EVENTGATE_SRC).value + 2).value
+    PHX_EVENTGATE_ACQ = c_int(c_uint32(etParam.PHX_EVENTGATE_SRC).value + 3).value
+    PHX_EVENTGATE_LINE = c_int(c_uint32(etParam.PHX_EVENTGATE_SRC).value + 4).value
+
+    # PHX_DST_ENDIAN
+    PHX_DST_LITTLE_ENDIAN = c_int(c_uint32(etParam.PHX_DST_ENDIAN).value + 1).value
+    PHX_DST_BIG_ENDIAN = c_int(c_uint32(etParam.PHX_DST_ENDIAN).value + 2).value
+
+    # PHX_CHAN_SYNC_MODE
+    PHX_CHAN_SYNC_NONE = c_int(c_uint32(etParam.PHX_CHAN_SYNC_MODE).value + 1).value
+    PHX_CHAN_SYNC_ACQEXPTRIG = c_int(c_uint32(etParam.PHX_CHAN_SYNC_MODE).value + 2).value
+
+    # PHX_CVB_PARAM
+    PHX_CVB_WIDTH = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 1).value
+    PHX_CVB_HEIGHT = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 2).value
+    PHX_CVB_PLANES = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 3).value
+    PHX_CVB_BIT_DEPTH = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 4).value
+    PHX_CVB_BYTES_PER_PIXEL = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 5).value
+    PHX_CVB_X_STEP = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 6).value
+    PHX_CVB_Y_STEP = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 7).value
+    PHX_CVB_PLANE_STEP = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 8).value
+    PHX_CVB_MALLOC = c_int(c_uint32(etParam.PHX_CVB_PARAM).value + 9).value
+
+    # PHX_ACQ_AUTO_RESTART
+    PHX_ACQ_AUTO_NONE = c_int(c_uint32(etParam.PHX_ACQ_AUTO_RESTART).value + 0x01).value
+    PHX_ACQ_AUTO_SYNC_LOST = c_int(c_uint32(etParam.PHX_ACQ_AUTO_RESTART).value + 0x02).value
+    PHX_ACQ_AUTO_FIFO_OVERFLOW = c_int(c_uint32(etParam.PHX_ACQ_AUTO_RESTART).value + 0x04).value
+
+    # PHX_BOARD_VARIANT
+    # PHX_BOARD_VARIANT
+    PHX_BOARD_DIGITAL = c_int(c_uint32(etCamConfigLoad.PHX_DIGITAL).value).value
+    PHX_BOARD_PHX_D24CL_PE1 = c_int(c_uint32(etCamConfigLoad.PHX_D24CL_PE1).value).value
+    PHX_BOARD_PHX_D24CL_PE1_MIR = c_int(c_uint32(etCamConfigLoad.PHX_D24CL_PE1_MIR).value).value
+    PHX_BOARD_PHX_D48CL_PE1 = c_int(c_uint32(etCamConfigLoad.PHX_D48CL_PE1).value).value
+    PHX_BOARD_PHX_D48CL_PE4 = c_int(c_uint32(etCamConfigLoad.PHX_D48CL_PE4).value).value
+    PHX_BOARD_PHX_D64CL_PE4 = c_int(c_uint32(etCamConfigLoad.PHX_D64CL_PE4).value).value
+    PHX_BOARD_PHX_D24CL_PCI32 = c_int(c_uint32(etCamConfigLoad.PHX_D24CL_PCI32).value).value
+    PHX_BOARD_PHX_D48CL_PCI32 = c_int(c_uint32(etCamConfigLoad.PHX_D48CL_PCI32).value).value
+    PHX_BOARD_PHX_D48CL_PCI64 = c_int(c_uint32(etCamConfigLoad.PHX_D48CL_PCI64).value).value
+    PHX_BOARD_PHX_D48CL_PCI64U = c_int(c_uint32(etCamConfigLoad.PHX_D48CL_PCI64U).value).value
+    PHX_BOARD_PHX_D10HDSDI_PE1 = c_int(c_uint32(etCamConfigLoad.PHX_D10HDSDI_PE1).value).value
+    PHX_BOARD_PHX_D20HDSDI_PE1 = c_int(c_uint32(etCamConfigLoad.PHX_D20HDSDI_PE1).value).value
+    PHX_BOARD_PHX_D10HDSDI_PE4 = c_int(c_uint32(etCamConfigLoad.PHX_D10HDSDI_PE4).value).value
+    PHX_BOARD_PHX_D20HDSDI_PE4 = c_int(c_uint32(etCamConfigLoad.PHX_D20HDSDI_PE4).value).value
+    PHX_BOARD_PHX_D36_PE1 = c_int(c_uint32(etCamConfigLoad.PHX_D36_PE1).value).value
+    PHX_BOARD_PHX_D36_PE4 = c_int(c_uint32(etCamConfigLoad.PHX_D36_PE4).value).value
+    PHX_BOARD_PHX_D32_PCI32 = c_int(c_uint32(etCamConfigLoad.PHX_D32_PCI32).value).value
+    PHX_BOARD_PHX_D36_PCI32 = c_int(c_uint32(etCamConfigLoad.PHX_D36_PCI32).value).value
+    PHX_BOARD_PHX_D36_PCI64 = c_int(c_uint32(etCamConfigLoad.PHX_D36_PCI64).value).value
+    PHX_BOARD_PHX_D36_PCI64U = c_int(c_uint32(etCamConfigLoad.PHX_D36_PCI64U).value).value
+    PHX_BOARD_PHX_D24AVDS_PE1 = c_int(c_uint32(etCamConfigLoad.PHX_D24AVDS_PE1).value).value
+    PHX_BOARD_FBD_1XCLD_2PE8 = PHX_BOARD_PHX_D24AVDS_PE1 + 1
+    PHX_BOARD_FBD_4XCXP6_2PE8 = PHX_BOARD_FBD_1XCLD_2PE8 + 1
+    PHX_BOARD_FBD_2XCLD_2PE8 = PHX_BOARD_FBD_4XCXP6_2PE8 + 1
+    PHX_BOARD_FBD_1XCXP6_2PE8 = PHX_BOARD_FBD_2XCLD_2PE8 + 1
+    PHX_BOARD_FBD_2XCXP6_2PE8 = PHX_BOARD_FBD_1XCXP6_2PE8 + 1
+    PHX_BOARD_FBD_1XCLM_2PE8 = PHX_BOARD_FBD_2XCXP6_2PE8 + 1
+    PHX_BOARD_FBD_2XCLM_2PE8 = PHX_BOARD_FBD_1XCLM_2PE8 + 1
+    PHX_BOARD_FBD_1XCLD_TTLA_2PE8 = PHX_BOARD_FBD_2XCLM_2PE8 + 1
+    PHX_BOARD_FBD_4XCXP6_TTLA_2PE8 = PHX_BOARD_FBD_1XCLD_TTLA_2PE8 + 1
+    PHX_BOARD_FBD_1XCLM_TTLA_2PE8 = PHX_BOARD_FBD_4XCXP6_TTLA_2PE8 + 1
+    PHX_BOARD_FBD_1XCLD_2PE8_MIR = PHX_BOARD_FBD_1XCLM_TTLA_2PE8 + 1
+    PHX_BOARD_FBD_4XCXP6_2PE8_MIR = PHX_BOARD_FBD_1XCLD_2PE8_MIR + 1
+    PHX_BOARD_FBD_1XCLM_2PE8_MIR = PHX_BOARD_FBD_4XCXP6_2PE8_MIR + 1
+    PHX_BOARD_FBD_1XCXPLR1_2PE8 = PHX_BOARD_FBD_1XCLM_2PE8_MIR + 1
+    PHX_BOARD_FBD_1XCLD_2PE4 = PHX_BOARD_FBD_1XCXPLR1_2PE8 + 1
+    PHX_BOARD_FBD_1XCLD_2PE4_SW = PHX_BOARD_FBD_1XCLD_2PE4 + 1
+    PHX_BOARD_FBD_1XCLD_2PE4L = PHX_BOARD_FBD_1XCLD_2PE4_SW + 1
+    PHX_BOARD_FBD_1XCLD_3CPCIS_2PE4 = PHX_BOARD_FBD_1XCLD_2PE4L + 1
+    PHX_BOARD_FBD_1XCXP6_2PE8_MIR = PHX_BOARD_FBD_1XCLD_3CPCIS_2PE4 + 1
+    PHX_BOARD_FBD_4XCXP6_3PE4 = PHX_BOARD_FBD_1XCXP6_2PE8_MIR + 1
+    PHX_BOARD_FBD_1XCXP6_2PE4L = PHX_BOARD_FBD_4XCXP6_3PE4 + 1
+    PHX_BOARD_FBD_4XCXP6_2PE8_MIR_A = PHX_BOARD_FBD_1XCXP6_2PE4L + 1
+    PHX_BOARD_FBD_4XCXP12_3PE4 = PHX_BOARD_FBD_4XCXP6_2PE8_MIR_A + 1
+    PHX_BOARD_FBD_4XCXP12_3PE8 = PHX_BOARD_FBD_4XCXP12_3PE4 + 1
+    PHX_BOARD_FBD_4XCXP12_3PE8_MIR = PHX_BOARD_FBD_4XCXP12_3PE8 + 1
+
+    # PHX_BOARD_NUMBER
+    PHX_BOARD_NUMBER_AUTO = c_int(c_uint32(etCamConfigLoad.PHX_BOARD_AUTO).value).value
+    PHX_BOARD_NUMBER_1 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD1).value).value
+    PHX_BOARD_NUMBER_2 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD2).value).value
+    PHX_BOARD_NUMBER_3 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD3).value).value
+    PHX_BOARD_NUMBER_4 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD4).value).value
+    PHX_BOARD_NUMBER_5 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD5).value).value
+    PHX_BOARD_NUMBER_6 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD6).value).value
+    PHX_BOARD_NUMBER_7 = c_int(c_uint32(etCamConfigLoad.PHX_BOARD7).value).value
+
+    # PHX_CHANNEL_NUMBER
+    PHX_CHANNEL_NUMBER_AUTO = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_AUTO).value).value
+    PHX_CHANNEL_NUMBER_1 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_A).value).value
+    PHX_CHANNEL_NUMBER_2 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value).value
+    PHX_CHANNEL_NUMBER_3 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value + 1).value
+    PHX_CHANNEL_NUMBER_4 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value + 2).value
+    PHX_CHANNEL_NUMBER_5 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value + 3).value
+    PHX_CHANNEL_NUMBER_6 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value + 4).value
+    PHX_CHANNEL_NUMBER_7 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value + 5).value
+    PHX_CHANNEL_NUMBER_8 = c_int(c_uint32(etCamConfigLoad.PHX_CHANNEL_B).value + 6).value
+
+    # PHX_CONFIG_MODE
+    PHX_CONFIG_NORMAL = c_int(c_uint32(etCamConfigLoad.PHX_MODE_NORMAL).value).value
+    PHX_CONFIG_COMMS_ONLY = c_int(c_uint32(etCamConfigLoad.PHX_COMMS_ONLY).value).value
+    PHX_CONFIG_ACQ_ONLY = c_int(c_uint32(etCamConfigLoad.PHX_ACQ_ONLY).value).value
+    PHX_CONFIG_NO_CHILDREN = c_int(c_uint32(etCamConfigLoad.PHX_COMMS_ONLY).value | c_uint32(etCamConfigLoad.PHX_ACQ_ONLY).value).value
+
+    # PHX_BOARD_BUS_ADDRESS
+    PHX_BOARD_INVALID_BUS_ADDRESS = c_int(0x80000000).value
+
+    # PHX_CXP_BITRATE_MODE
+    PHX_CXP_BITRATE_MODE_AUTO = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 1).value
+    PHX_CXP_BITRATE_MODE_CXP1 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 2).value
+    PHX_CXP_BITRATE_MODE_CXP2 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 3).value
+    PHX_CXP_BITRATE_MODE_CXP3 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 4).value
+    PHX_CXP_BITRATE_MODE_CXP5 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 5).value
+    PHX_CXP_BITRATE_MODE_CXP6 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 6).value
+    PHX_CXP_BITRATE_MODE_CXP10 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 7).value
+    PHX_CXP_BITRATE_MODE_CXP12 = c_int(c_uint32(etParam.PHX_CXP_BITRATE_MODE).value + 8).value
+
+    # PHX_CXP_BITRATE
+    PHX_CXP_BITRATE_UNKNOWN = c_int(c_uint32(etParam.PHX_CXP_BITRATE).value + 1).value
+    PHX_CXP_BITRATE_CXP1 = PHX_CXP_BITRATE_MODE_CXP1
+    PHX_CXP_BITRATE_CXP2 = PHX_CXP_BITRATE_MODE_CXP2
+    PHX_CXP_BITRATE_CXP3 = PHX_CXP_BITRATE_MODE_CXP3
+    PHX_CXP_BITRATE_CXP5 = PHX_CXP_BITRATE_MODE_CXP5
+    PHX_CXP_BITRATE_CXP6 = PHX_CXP_BITRATE_MODE_CXP6
+    PHX_CXP_BITRATE_CXP10 = PHX_CXP_BITRATE_MODE_CXP10
+    PHX_CXP_BITRATE_CXP12 = PHX_CXP_BITRATE_MODE_CXP12
+
+    # PHX_CXP_POCXP_MODE
+    PHX_CXP_POCXP_MODE_AUTO = c_int(c_uint32(etParam.PHX_CXP_POCXP_MODE).value + 1).value
+    PHX_CXP_POCXP_MODE_OFF = c_int(c_uint32(etParam.PHX_CXP_POCXP_MODE).value + 2).value
+    PHX_CXP_POCXP_MODE_TRIP_RESET = c_int(c_uint32(etParam.PHX_CXP_POCXP_MODE).value + 3).value
+    PHX_CXP_POCXP_MODE_FORCEON = c_int(c_uint32(etParam.PHX_CXP_POCXP_MODE).value + 4).value
+
+    # PHX_CL_POCL_MODE
+    PHX_CL_POCL_MODE_AUTO = c_int(c_uint32(etParam.PHX_CL_POCL_MODE).value + 1).value
+    PHX_CL_POCL_MODE_OFF = c_int(c_uint32(etParam.PHX_CL_POCL_MODE).value + 2).value
+    PHX_CL_POCL_MODE_TRIP_RESET = c_int(c_uint32(etParam.PHX_CL_POCL_MODE).value + 3).value
+
+    # PHX_CXP_DISCOVERY_MODE
+    PHX_CXP_DISCOVERY_MODE_AUTO = c_int(c_uint32(etParam.PHX_CXP_DISCOVERY_MODE).value + 1).value
+    PHX_CXP_DISCOVERY_MODE_1X = c_int(c_uint32(etParam.PHX_CXP_DISCOVERY_MODE).value + 2).value
+    PHX_CXP_DISCOVERY_MODE_2X = c_int(c_uint32(etParam.PHX_CXP_DISCOVERY_MODE).value + 3).value
+    PHX_CXP_DISCOVERY_MODE_4X = c_int(c_uint32(etParam.PHX_CXP_DISCOVERY_MODE).value + 4).value
+
+    # PHX_CXP_DISCOVERY
+    PHX_CXP_DISCOVERY_UNKNOWN = c_int(c_uint32(etParam.PHX_CXP_DISCOVERY).value + 1).value
+    PHX_CXP_DISCOVERY_1X = PHX_CXP_DISCOVERY_MODE_1X
+    PHX_CXP_DISCOVERY_2X = PHX_CXP_DISCOVERY_MODE_2X
+    PHX_CXP_DISCOVERY_4X = PHX_CXP_DISCOVERY_MODE_4X
+
+    # PHX_DST_ALIGMNENT
+    PHX_DST_LSB_ALIGNED = c_int(c_uint32(etParam.PHX_DST_ALIGNMENT).value + 1).value
+    PHX_DST_MSB_ALIGNED = c_int(c_uint32(etParam.PHX_DST_ALIGNMENT).value + 2).value
+
+    # PHX_ACQ_BUFFER_MEMSET_MODE
+    PHX_ACQ_BUFFER_MEMSET_NONE = c_int(c_uint32(etParam.PHX_ACQ_BUFFER_MEMSET_MODE).value + 1).value
+    PHX_ACQ_BUFFER_MEMSET_START = c_int(c_uint32(etParam.PHX_ACQ_BUFFER_MEMSET_MODE).value + 2).value
+    PHX_ACQ_BUFFER_MEMSET_ALWAYS = c_int(c_uint32(etParam.PHX_ACQ_BUFFER_MEMSET_MODE).value + 3).value
+
+    # PHX_INTRPT_CONDITIONS
+    PHX_INTRPT_TEST = 0x00000001
+    PHX_INTRPT_BUFFER_READY = 0x00000002
+    PHX_INTRPT_FIFO_OVERFLOW = 0x00000004
+    PHX_INTRPT_FRAME_LOST = 0x00000008
+    PHX_INTRPT_CAPTURE_COMPLETE = 0x00000010
+    PHX_INTRPT_FRAME_START = 0x00000020
+    PHX_INTRPT_FRAME_END = 0x00000040
+    PHX_INTRPT_LINE_START = 0x00000080
+    PHX_INTRPT_LINE_END = 0x00000100
+    PHX_INTRPT_FGTRIG_START = 0x00000200
+    PHX_INTRPT_FGTRIG_END = 0x00000400
+    PHX_INTRPT_TIMEOUT = 0x00000800
+    PHX_INTRPT_SYNC_LOST = 0x00001000
+    PHX_INTRPT_TIMERA1 = 0x00002000
+    PHX_INTRPT_CXP_ERROR = 0x00004000
+    PHX_INTRPT_TIMERM1 = 0x00010000
+    PHX_INTRPT_TIMERM2 = 0x00020000
+    PHX_INTRPT_CAMERA_TRIGGER = 0x00040000
+    PHX_INTRPT_GLOBAL_ENABLE = c_int(0x80000000).value
+
+class etPhxIOMethod:
+    PHX_EMASK_IO_METHOD = 0x3F000000
+    PHX_IO_METHOD_WRITE = 0x00000000
+    PHX_IO_METHOD_READ = 0x00000000
+    PHX_IO_METHOD_BIT_SET = 0x01000000
+    PHX_IO_METHOD_BIT_CLR = 0x02000000
+    PHX_IO_METHOD_BIT_TIMERMX_POS = 0x04000000
+    PHX_IO_METHOD_BIT_FGTRIGD_POS = 0x05000000
+    PHX_IO_METHOD_BIT_FIFO_WARN_POS = 0x06000000
+    PHX_IO_METHOD_BIT_TIMERMX_NEG = 0x08000000
+    PHX_IO_METHOD_BIT_FGTRIGD_NEG = 0x09000000
+    PHX_IO_METHOD_BIT_FIFO_WARN_NEG = 0x0A000000
+    PHX_IO_METHOD_BIT_TIMERM1_POS_CHX = 0x10000000
+    PHX_IO_METHOD_BIT_TIMERM1_NEG_CHX = 0x11000000
+    PHX_IO_METHOD_BIT_TIMERM1_POS_CH1 = 0x12000000
+    PHX_IO_METHOD_BIT_TIMERM1_NEG_CH1 = 0x13000000
+    PHX_IO_METHOD_BIT_TIMERM1_POS_CH2 = 0x14000000
+    PHX_IO_METHOD_BIT_TIMERM1_NEG_CH2 = 0x15000000
+    PHX_IO_METHOD_BIT_TIMERM1_POS_CH3 = 0x16000000
+    PHX_IO_METHOD_BIT_TIMERM1_NEG_CH3 = 0x17000000
+    PHX_IO_METHOD_BIT_TIMERM1_POS_CH4 = 0x18000000
+    PHX_IO_METHOD_BIT_TIMERM1_NEG_CH4 = 0x19000000
+    PHX_IO_METHOD_BIT_TIMERM2_POS_CHX = 0x1A000000
+    PHX_IO_METHOD_BIT_TIMERM2_NEG_CHX = 0x1B000000
+    PHX_IO_METHOD_BIT_TIMERM2_POS_CH1 = 0x1C000000
+    PHX_IO_METHOD_BIT_TIMERM2_NEG_CH1 = 0x1D000000
+    PHX_IO_METHOD_BIT_TIMERM2_POS_CH2 = 0x1E000000
+    PHX_IO_METHOD_BIT_TIMERM2_NEG_CH2 = 0x1F000000
+    PHX_IO_METHOD_BIT_TIMERM2_POS_CH3 = 0x20000000
+    PHX_IO_METHOD_BIT_TIMERM2_NEG_CH3 = 0x21000000
+    PHX_IO_METHOD_BIT_TIMERM2_POS_CH4 = 0x22000000
+    PHX_IO_METHOD_BIT_TIMERM2_NEG_CH4 = 0x23000000
+    PHX_IO_METHOD_BIT_FGTRIGD_POS_CHX = 0x24000000
+    PHX_IO_METHOD_BIT_FGTRIGD_NEG_CHX = 0x25000000
+    PHX_IO_METHOD_BIT_FGTRIGD_POS_CH1 = 0x26000000
+    PHX_IO_METHOD_BIT_FGTRIGD_NEG_CH1 = 0x27000000
+    PHX_IO_METHOD_BIT_FGTRIGD_POS_CH2 = 0x28000000
+    PHX_IO_METHOD_BIT_FGTRIGD_NEG_CH2 = 0x29000000
+    PHX_IO_METHOD_BIT_FGTRIGD_POS_CH3 = 0x2A000000
+    PHX_IO_METHOD_BIT_FGTRIGD_NEG_CH3 = 0x2B000000
+    PHX_IO_METHOD_BIT_FGTRIGD_POS_CH4 = 0x2C000000
+    PHX_IO_METHOD_BIT_FGTRIGD_NEG_CH4 = 0x2D000000
+
+    # Retained for backwards compatibility with previous software releases
+    PHX_IO_METHOD_BIT_TIMER_POS = 0x04000000
+    PHX_IO_METHOD_BIT_HW_POS = 0x04000000
+    PHX_IO_METHOD_BIT_ACQTRIG_POS = 0x05000000
+    PHX_IO_METHOD_BIT_TIMER_NEG = 0x08000000
+    PHX_IO_METHOD_BIT_HW_NEG = 0x08000000
+    PHX_IO_METHOD_BIT_ACQTRIG_NEG = 0x09000000
+
 if __name__ == '__main__':
    print(etParam.PHX_ACQ_CONTINUOUS)
+   print(etParamValue.PHX_ACQ_LINE_DOUBLE_2)
+   print(etParamValue.PHX_USR_FORMAT_BAYER_BG14P)
+   print(etParamValue.PHX_CAMTRIG_SRC_TTLIN_CH4_0)
+   print(etParamValue.PHX_TIMERA1_TRIG_SRC_24VIN_CH8_0_FALL)
+   print(etParamValue.PHX_CXP_BITRATE_MODE_CXP10)
+   print(etParamValue.PHX_CXP_DISCOVERY_MODE_4X)
+   print(etParamValue.PHX_INTRPT_CAMERA_TRIGGER)
