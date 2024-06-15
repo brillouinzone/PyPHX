@@ -3,15 +3,22 @@ import os
 from common import *
 from phx_os import *
 from phx_api import *
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 # Load the DLL
 directory="C:/Users/Public/Documents/Active Silicon/ActiveSDK v01.08.12/examples/build/windows/output/x64_Release"
-dll_path = os.path.abspath(os.path.join(directory,'phx_live_dll.dll'))
+dll_path = os.path.abspath(os.path.join(directory,'phx_live_dll_2.dll'))
 phxdll = ctypes.CDLL(dll_path)
 
 
 # define the function prototypes
+# Define the return types of the functions
+phxdll.get_buffer_address.restype = ctypes.POINTER(ctypes.c_ubyte)
+phxdll.get_buffer_width.restype = ctypes.c_uint32
+phxdll.get_buffer_height.restype = ctypes.c_uint32
+
 phxdll.InitPhxCmd.argtypes = []
 phxdll.InitPhxCmd.restype = tPhxCmd
 
@@ -33,11 +40,14 @@ phxdll.Initphxlive.restype = c_int
 phxdll.stop_looping.argtypes = []
 phxdll.stop_looping.restype = None
 
-display_buffer = stImageBuff()
+phxdll.access_buffer.argtypes = []
+phxdll.access_buffer.restype = None
 
-display_buffer.pvAddress = ctypes.cast(ctypes.create_string_buffer(640 * 480),
-                                       ctypes.c_void_p)  # Example buffer size
-display_buffer.pvContext = None
+# display_buffer = stImageBuff()
+#
+# display_buffer.pvAddress = ctypes.cast(ctypes.create_string_buffer(640 * 480),
+#                                        ctypes.c_void_p)  # Example buffer size
+# display_buffer.pvContext = None
 
 def phxlive():
     import sys
@@ -61,16 +71,42 @@ def phxlive():
 def main():
     # Start the C function in a separate thread
 
+    import time
     loop_thread = threading.Thread(target=phxlive)
     loop_thread.start()
+
     print("doing other stuff now")
-
-    import time
-
-    time.sleep(5)  # Example delay
-    phxdll.stop_looping()
+    time.sleep(3)  # Example delay
 
     # Wait for the loop thread to exit
+    phxdll.access_buffer()
+    # Get the buffer details
+    buffer_address = phxdll.get_buffer_address()
+    buffer_width = phxdll.get_buffer_width()
+    buffer_height = phxdll.get_buffer_height()
+
+
+    if buffer_address:
+        # Convert the buffer to a NumPy array
+        buffer_size = buffer_width * buffer_height
+        buffer_array = np.ctypeslib.as_array(buffer_address, shape=(buffer_size,))
+        buffer_image = buffer_array.reshape((buffer_height, buffer_width))
+        plt.figure()
+        plt.imshow(buffer_image)
+        plt.show()
+
+    else:
+        print("Buffer address is NULL")
+
+
+
+    time.sleep(5)  # Example delay
+
+
+
+
+    # Wait for the loop thread to exit
+    phxdll.stop_looping()
     loop_thread.join()
 
 
@@ -78,3 +114,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
