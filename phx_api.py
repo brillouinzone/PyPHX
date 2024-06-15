@@ -1,5 +1,5 @@
-from ctypes import c_int, c_uint32
-
+from ctypes import c_int, Structure, c_void_p, c_uint64, c_uint32, c_ulonglong, POINTER, c_uint8, c_uint16, CFUNCTYPE, c_char_p
+import phx_os
 # /* API & Library function parameter definitions
 #  * ============================================
 # _FnTypes()
@@ -1345,7 +1345,333 @@ class etPhxIOMethod:
     PHX_IO_METHOD_BIT_TIMER_NEG = 0x08000000
     PHX_IO_METHOD_BIT_HW_NEG = 0x08000000
     PHX_IO_METHOD_BIT_ACQTRIG_NEG = 0x09000000
+class etBoardInfo:
+    PHX_BOARD_INFO_PCI_3V = 0x00000001
+    PHX_BOARD_INFO_PCI_5V = 0x00000002
+    PHX_BOARD_INFO_PCI_33M = 0x00000004
+    PHX_BOARD_INFO_PCI_66M = 0x00000008
+    PHX_BOARD_INFO_PCI_32B = 0x00000010
+    PHX_BOARD_INFO_PCI_64B = 0x00000020
+    PHX_BOARD_INFO_LVDS = 0x00000040
+    PHX_BOARD_INFO_CL = 0x00000080
+    PHX_BOARD_INFO_CHAIN_MASTER = 0x00000100
+    PHX_BOARD_INFO_CHAIN_SLAVE = 0x00000200
+    PHX_BOARD_INFO_PCI_EXPRESS = 0x00000400
+    PHX_BOARD_INFO_CL_BASE = 0x00000800
+    PHX_BOARD_INFO_CL_MEDIUM = 0x00001000
+    PHX_BOARD_INFO_CL_FULL = 0x00002000
+    PHX_BOARD_INFO_BOARD_3V = 0x00010000
+    PHX_BOARD_INFO_BOARD_5V = 0x00020000
+    PHX_BOARD_INFO_BOARD_33M = 0x00040000
+    PHX_BOARD_INFO_BOARD_66M = 0x00080000
+    PHX_BOARD_INFO_BOARD_32B = 0x00100000
+    PHX_BOARD_INFO_BOARD_64B = 0x00200000
 
+class etPcieInfo:
+    PHX_CXP_LINKS_MAX = 4
+    PHX_EMASK_PCIE_INFO_LINK_GEN = 0x00000003
+    PHX_PCIE_INFO_UNKNOWN = 0x00000000
+    PHX_PCIE_INFO_LINK_GEN1 = 0x00000001
+    PHX_PCIE_INFO_LINK_GEN2 = 0x00000002
+    PHX_PCIE_INFO_LINK_GEN3 = 0x00000003
+    PHX_EMASK_PCIE_INFO_LINK_X = 0x0000001C
+    PHX_PCIE_INFO_LINK_X1 = 0x00000004
+    PHX_PCIE_INFO_LINK_X2 = 0x00000008
+    PHX_PCIE_INFO_LINK_X4 = 0x0000000C
+    PHX_PCIE_INFO_LINK_X8 = 0x00000010
+    PHX_PCIE_INFO_LINK_X12 = 0x00000014
+    PHX_PCIE_INFO_LINK_X16 = 0x00000018
+    PHX_PCIE_INFO_LINK_X32 = 0x0000001C
+    PHX_EMASK_PCIE_INFO_FG_GEN = 0x00000300
+    PHX_PCIE_INFO_FG_GEN1 = 0x00000100
+    PHX_PCIE_INFO_FG_GEN2 = 0x00000200
+    PHX_PCIE_INFO_FG_GEN3 = 0x00000300
+    PHX_EMASK_PCIE_INFO_FG_X = 0x00001C00
+    PHX_PCIE_INFO_FG_X1 = 0x00000400
+    PHX_PCIE_INFO_FG_X2 = 0x00000800
+    PHX_PCIE_INFO_FG_X4 = 0x00000C00
+    PHX_PCIE_INFO_FG_X8 = 0x00001000
+    PHX_PCIE_INFO_FG_X12 = 0x00001400
+    PHX_PCIE_INFO_FG_X16 = 0x00001800
+    PHX_PCIE_INFO_FG_X32 = 0x00001C00
+    PHX_EMASK_PCIE_INFO_SLOT_GEN = 0x00030000
+    PHX_PCIE_INFO_SLOT_GEN1 = 0x00010000
+    PHX_PCIE_INFO_SLOT_GEN2 = 0x00020000
+    PHX_PCIE_INFO_SLOT_GEN3 = 0x00030000
+    PHX_EMASK_PCIE_INFO_SLOT_X = 0x001C0000
+    PHX_PCIE_INFO_SLOT_X1 = 0x00040000
+    PHX_PCIE_INFO_SLOT_X2 = 0x00080000
+    PHX_PCIE_INFO_SLOT_X4 = 0x000C0000
+    PHX_PCIE_INFO_SLOT_X8 = 0x00100000
+    PHX_PCIE_INFO_SLOT_X12 = 0x00140000
+    PHX_PCIE_INFO_SLOT_X16 = 0x00180000
+    PHX_PCIE_INFO_SLOT_X32 = 0x001C0000
+
+class etCxpInfo:
+    PHX_CXP_CAMERA_DISCOVERED = 0x00000001
+    PHX_CXP_CAMERA_IS_POCXP = 0x00000002
+    PHX_CXP_POCXP_UNAVAILABLE = 0x00000004
+    PHX_CXP_POCXP_TRIPPED = 0x00000008
+    PHX_CXP_LINK1_USED = 0x00000100
+    PHX_CXP_LINK2_USED = 0x00000200
+    PHX_CXP_LINK3_USED = 0x00000400
+    PHX_CXP_LINK4_USED = 0x00000800
+    PHX_CXP_LINK1_MASTER = 0x00010000
+    PHX_CXP_LINK2_MASTER = 0x00020000
+    PHX_CXP_LINK3_MASTER = 0x00040000
+    PHX_CXP_LINK4_MASTER = 0x00080000
+
+class etClInfo:
+    PHX_CL_CAMERA_CONNECTED = 0x00000001
+    PHX_CL_CAMERA_IS_POCL = 0x00000002
+    PHX_CL_POCL_UNAVAILABLE = 0x00000004
+    PHX_CL_POCL_TRIPPED = 0x00000008
+
+class etAcq:
+    PHX_START = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 1)
+    PHX_CHECK_AND_WAIT = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 2)
+    PHX_CHECK_AND_RETURN = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 3)
+    PHX_STOP = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 4)
+    PHX_ABORT = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 5)
+    PHX_BUFFER_GET = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 6)
+    PHX_BUFFER_RELEASE = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 7)
+    PHX_BUFFER_ABORT = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 8)
+    PHX_EVENT_HANDLER = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 9)
+    PHX_START_IMMEDIATELY = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 10)
+    PHX_SWTRIG = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 11)
+    PHX_UNLOCK = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 12)
+    PHX_AUTO_WHITE_BALANCE = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 13)
+    PHX_AUTO_RESTART = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 14)
+    PHX_BUFFER_GET_MERGED = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 15)
+    PHX_USER_LOCK = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 16)
+    PHX_USER_UNLOCK = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 17)
+    PHX_BUFFER_OBJECT_GET = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 18)
+    PHX_BUFFER_MAKE_READY = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 19)
+
+    PHX_CXP_LINKTEST_UPLINK_OK_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 128)
+    PHX_CXP_LINKTEST_UPLINK_ERR_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 129)
+    PHX_CXP_LINKTEST_DOWNLINK_OK_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 130)
+    PHX_CXP_LINKTEST_DOWNLINK_ERR_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 131)
+    PHX_CXP_ERRCOUNT_LINK_LOSS_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 132)
+    PHX_CXP_ERRCOUNT_8B10B_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 133)
+    PHX_CXP_ERRCOUNT_CRC_STREAM_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 134)
+    PHX_CXP_ERRCOUNT_CRC_CTRL_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 135)
+    PHX_CXP_ERRCOUNT_CRC_EVENT_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 136)
+    PHX_CXP_ERRCOUNT_DUP_FIXED_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 137)
+    PHX_CXP_ERRCOUNT_DUP_NFIXED_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 138)
+    PHX_CXP_ERRCOUNT_FEC_FIXED_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 139)
+    PHX_CXP_ERRCOUNT_FEC_NFIXED_RST = _PHX_ENUM(etPhxFn.PHX_ACQUIRE, 140)
+
+    # For backwards compatibility
+    PHX_EXPOSE = PHX_SWTRIG
+#
+# /* This structure is used to specify the address and context of a block of
+#  * memory (used to specify user allocated image buffers). It can be used
+#  * either for virtual or physical addresses.
+#  */
+class stImageBuff(Structure):
+    _fields_ = [
+        ("pvAddress", c_void_p),
+        ("pvContext", c_void_p)
+    ]
+
+# /* This structure is used to specify the address, size and context of a
+#  * block of memory (used to specify user locked image buffers).
+#  */
+class stUserBuff(Structure):
+    _fields_ = [
+        ("pvAddress", c_void_p),
+        ("qwSizeBytes", c_uint64),
+        ("pvContext", c_void_p)
+    ]
+
+# /* This structure is used to specify address and lngth of physical blocks of memory.
+#  */
+class stPhysBuff(Structure):
+    _fields_ = [
+        ("uiAddress", c_ulonglong),  # Assuming tPhxPhysAddr is a 64-bit address
+        ("uiLength", c_uint32)       # Assuming tPhxPhysLen is a 32-bit length
+    ]
+
+class stPhxTimeStamp(Structure):
+    _fields_ = [
+        ("qwTime", c_uint64),
+        ("qwEvent", c_uint64)
+    ]
+
+class stPhxCxpHeader(Structure):
+    _fields_ = [
+        ("uiHeaderIndication", c_uint32),
+        ("uiStreamID", c_uint32),
+        ("uiSrcTag", c_uint32),
+        ("uiSizeX", c_uint32),
+        ("uiSizeY", c_uint32),
+        ("uiOffsetX", c_uint32),
+        ("uiOffsetY", c_uint32),
+        ("uiDWordCount", c_uint32),
+        ("uiPixelFormat", c_uint32),
+        ("uiTapGeometry", c_uint32),
+        ("uiFlags", c_uint32)
+    ]
+
+class etBufferParam:
+    PHX_BUFFER_VIRTUAL_ADDR = 0
+    PHX_BUFFER_CONTEXT = 1
+    PHX_BUFFER_SEQUENCE_TAG = 2
+    PHX_BUFFER_TIMESTAMP = 3
+    PHX_BUFFER_NUM_TIMESTAMPS = 4
+    PHX_BUFFER_TIMESTAMP_ADDR = 5
+
+# Constants
+PHX_MAX_BUFFS = 0x00007FFF
+PHX_BUFFS_MASK = 0x00007FFF
+PHX_MAX_UINT64 = c_uint64(-1).value
+
+# Enum for Timeouts
+class eTimeouts:
+    PHX_TIMEOUT_IMMEDIATE = 0
+    PHX_TIMEOUT_INFINITE = -1
+    PHX_TIMEOUT_PROTOCOL = -2
+
+# Enum for Status Definitions
+class eStat:
+    PHX_OK = 0
+    PHX_ERROR_BAD_HANDLE = 1
+    PHX_ERROR_BAD_PARAM = 2
+    PHX_ERROR_BAD_PARAM_VALUE = 3
+    PHX_ERROR_READ_ONLY_PARAM = 4
+    PHX_ERROR_OPEN_FAILED = 5
+    PHX_ERROR_INCOMPATIBLE = 6
+    PHX_ERROR_HANDSHAKE = 7
+    PHX_ERROR_INTERNAL_ERROR = 8
+    PHX_ERROR_OVERFLOW = 9
+    PHX_ERROR_NOT_IMPLEMENTED = 10
+    PHX_ERROR_HW_PROBLEM = 11
+    PHX_ERROR_NOT_SUPPORTED = 12
+    PHX_ERROR_OUT_OF_RANGE = 13
+    PHX_ERROR_MALLOC_FAILED = 14
+    PHX_ERROR_SYSTEM_CALL_FAILED = 15
+    PHX_ERROR_FILE_OPEN_FAILED = 16
+    PHX_ERROR_FILE_CLOSE_FAILED = 17
+    PHX_ERROR_FILE_INVALID = 18
+    PHX_ERROR_BAD_MEMBER = 19
+    PHX_ERROR_HW_NOT_CONFIGURED = 20
+    PHX_ERROR_INVALID_FLASH_PROPERTIES = 21
+    PHX_ERROR_ACQUISITION_STARTED = 22
+    PHX_ERROR_INVALID_POINTER = 23
+    PHX_ERROR_LIB_INCOMPATIBLE = 24
+    PHX_ERROR_SLAVE_MODE = 25
+
+    # Phoenix display library errors
+    PHX_ERROR_DISPLAY_CREATE_FAILED = 26
+    PHX_ERROR_DISPLAY_DESTROY_FAILED = 27
+    PHX_ERROR_DDRAW_INIT_FAILED = 28
+    PHX_ERROR_DISPLAY_BUFF_CREATE_FAILED = 29
+    PHX_ERROR_DISPLAY_BUFF_DESTROY_FAILED = 30
+    PHX_ERROR_DDRAW_OPERATION_FAILED = 31
+
+    # Registry errors
+    PHX_ERROR_WIN32_REGISTRY_ERROR = 32
+
+    PHX_ERROR_PROTOCOL_FAILURE = 33
+    PHX_ERROR_CXP_INVALID_ADDRESS = 34
+    PHX_ERROR_CXP_INVALID_DATA = 35
+    PHX_ERROR_CXP_INVALID_CONTROL = 36
+    PHX_ERROR_CXP_WRITE_TO_READ_ONLY = 37
+    PHX_ERROR_CXP_READ_FROM_WRITE_ONLY = 38
+    PHX_ERROR_CXP_SIZE_TOO_LARGE = 39
+    PHX_ERROR_CXP_INCORRECT_SIZE = 40
+    PHX_ERROR_CXP_MALFORMED_PACKET = 41
+    PHX_ERROR_CXP_FAILED_CRC = 42
+    PHX_ERROR_CXP_COMMAND_MISMATCH = 43
+    PHX_ERROR_CXP_WAIT_ACK_DATA = 44
+    PHX_ERROR_CXP_SIZE_MISMATCH = 45
+    PHX_ERROR_CXP_STATUS_MISMATCH = 46
+    PHX_ERROR_CXP_ACK_TIMEOUT = 47
+    PHX_ERROR_CXP_WAIT_ACK_TIMEOUT = 48
+    PHX_ERROR_CXP_USER_ACK_TIMEOUT = 49
+    PHX_ERROR_CXP_INITIAL_ACK_TIMEOUT = 50
+    PHX_ERROR_CXP_TENTATIVE_ACK_TIMEOUT = 51
+    PHX_ERROR_CXP_RX_PACKET_INVALID = 52
+    PHX_ERROR_CXP_RX_PACKET_CRC_ERROR = 53
+    PHX_ERROR_CXP_INVALID_READ_ACK = 54
+    PHX_ERROR_CXP_INVALID_WRITE_ACK = 55
+    PHX_ERROR_CXP_INVALID_TENTATIVE_ACK = 56
+    PHX_ERROR_CXP_INVALID_RESET_ACK = 57
+    PHX_ERROR_CXP_INVALID_WAIT_ACK = 58
+
+    PHX_WARNING_TIMEOUT = 0x8000
+    PHX_WARNING_FLASH_RECONFIG = 0x8001
+    PHX_WARNING_ZBT_RECONFIG = 0x8002
+    PHX_WARNING_NOT_PHX_COM = 0x8003
+    PHX_WARNING_NO_PHX_BOARD_REGISTERED = 0x8004
+    PHX_WARNING_TIMEOUT_EXTENDED = 0x8005
+    PHX_WARNING_FW_PARTIALLY_UPDATED = 0x8006
+    PHX_WARNING_FW_STATUS_VERIFY = 0x8007
+    PHX_WARNING_FW_DATA_VERIFY = 0x8008
+    PHX_WARNING_FW_S1_S2_MISMATCH = 0x8009
+
+    # Backwards compatibility
+    PHX_ERROR_INVALID_FLASH_PROPERITES = PHX_ERROR_INVALID_FLASH_PROPERTIES
+    PHX_WARNING = PHX_WARNING_TIMEOUT
+
+# alias of other enum representation
+etStat = eStat
+
+
+# Definition of the tColour structure
+class tColour(Structure):
+    _fields_ = [
+        ("bRed", c_uint8),
+        ("bGreen", c_uint8),
+        ("bBlue", c_uint8)
+    ]
+
+# Definition of the tLutInfo structure
+class tLutInfo(Structure):
+    _fields_ = [
+        ("dwLut", c_uint32),
+        ("dwColour", c_uint32),
+        ("dwTap", c_uint32),
+        ("dwBrightness", c_uint32),
+        ("dwContrast", c_uint32),
+        ("dwGamma", c_uint32),
+        ("dwFloor", c_uint32),
+        ("dwCeiling", c_uint32),
+        ("pwLutData", POINTER(c_uint16)),
+        ("dwSize", c_uint32)
+    ]
+
+# Enum for Default settings for the Luts
+class eLutCtrl:
+    PHX_LUT_DEFAULT_BRIGHTNESS = 100
+    PHX_LUT_DEFAULT_CONTRAST = 100
+    PHX_LUT_DEFAULT_GAMMA = 100
+    PHX_LUT_MAX_LUTS = 256  # Maximum number of LUTs across a line
+    PHX_LUT_MAX_COLS = 3    # Maximum number of LUT components
+    PHX_LUT_MAX_TAPS = 2    # Maximum number of camera taps
+
+# Enum for Default settings for the FbdLuts
+class eFbdLutCtrl:
+    FBD_LUT_DEFAULT_BRIGHTNESS = 100
+    FBD_LUT_DEFAULT_CONTRAST = 100
+    FBD_LUT_BRIGHTNESS_MAX_VALUE = 200
+    FBD_LUT_BRIGHTNESS_MIN_VALUE = 0
+    FBD_LUT_CONTRAST_MAX_VALUE = 200
+    FBD_LUT_CONTRAST_MIN_VALUE = 0
+    FBD_LUT_DEFAULT_FLOOR = 0
+    FBD_LUT_DEFAULT_CEILING = -1
+    FBD_LUT_MAX_TAPS = 4
+tBufferHandle = c_void_p
+
+# Define the etFctErrorHandler callback function type
+etFctErrorHandler = CFUNCTYPE(None, c_char_p, c_int, c_char_p)
+
+# Example usage of the etFctErrorHandler in Python
+# def example_error_handler(source, status, message):
+#     print(f"Error from {source}: {status} - {message}")
+#
+# error_handler = etFctErrorHandler(example_error_handler)
 if __name__ == '__main__':
    print(etParam.PHX_ACQ_CONTINUOUS)
    print(etParamValue.PHX_ACQ_LINE_DOUBLE_2)
@@ -1355,3 +1681,4 @@ if __name__ == '__main__':
    print(etParamValue.PHX_CXP_BITRATE_MODE_CXP10)
    print(etParamValue.PHX_CXP_DISCOVERY_MODE_4X)
    print(etParamValue.PHX_INTRPT_CAMERA_TRIGGER)
+   print(etAcq.PHX_CXP_ERRCOUNT_CRC_EVENT_RST)
