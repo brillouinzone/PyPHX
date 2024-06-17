@@ -15,7 +15,8 @@ phxdll = ctypes.CDLL(dll_path)
 
 # define the function prototypes
 # Define the return types of the functions
-phxdll.get_buffer_address.restype = ctypes.POINTER(ctypes.c_ubyte)
+# phxdll.get_buffer_address.restype = ctypes.POINTER(ctypes.c_ubyte) # use if 8 bit image
+phxdll.get_buffer_address.restype = ctypes.POINTER(ctypes.c_uint16)  # Change to 16-bit
 phxdll.get_buffer_width.restype = ctypes.c_uint32
 phxdll.get_buffer_height.restype = ctypes.c_uint32
 
@@ -74,12 +75,13 @@ def main():
     import time
     loop_thread = threading.Thread(target=phxlive)
     loop_thread.start()
+    time.sleep(1)
 
-    print("doing other stuff now")
-    time.sleep(3)  # Example delay
+    print("waiting for capture trigger")
 
     # Wait for the loop thread to exit
     phxdll.access_buffer()
+    time.sleep(1)
     # Get the buffer details
     buffer_address = phxdll.get_buffer_address()
     buffer_width = phxdll.get_buffer_width()
@@ -97,12 +99,6 @@ def main():
 
     else:
         print("Buffer address is NULL")
-
-
-
-    time.sleep(5)  # Example delay
-
-
 
 
     # Wait for the loop thread to exit
