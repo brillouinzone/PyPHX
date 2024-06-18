@@ -95,6 +95,7 @@ def main():
         buffer_image = buffer_array.reshape((buffer_height, buffer_width))
         plt.figure()
         plt.imshow(buffer_image)
+        print(f"npmax = {np.max(buffer_image)}")
         plt.show()
 
     else:
