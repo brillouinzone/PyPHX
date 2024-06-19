@@ -1,10 +1,12 @@
 import os
-from common import *
-from phx_os import *
+from PyPHX import *
 
 # Load the DLL
-directory="C:/Users/Public/Documents/Active Silicon/ActiveSDK v01.08.12/examples/build/windows/output/x64_Release"
-dll_path = os.path.abspath(os.path.join(directory,'phx_live_dll.dll'))
+
+
+localpath= os.path.dirname(os.path.realpath(__file__))
+# Load the DLL
+dll_path = os.path.abspath(os.path.join(localpath,'..','build','x64_Release', 'phx.dll'))
 phxdll = ctypes.CDLL(dll_path)
 
 
@@ -29,7 +31,6 @@ phxdll.Initphxlive.restype = ctypes.c_int
 
 
 def main():
-    import sys
     # argc = len(sys.argv)
     #
     # argv = (ctypes.c_char_p * argc)(*map(lambda arg: ctypes.create_string_buffer(arg.encode('utf-8')), sys.argv))

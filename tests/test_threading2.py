@@ -1,8 +1,6 @@
 import threading
-import os
-from common import *
-from phx_os import *
-from phx_api import *
+from PyPHX.common import *
+from PyPHX.phx_api import *
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -51,7 +49,6 @@ phxdll.access_buffer.restype = None
 # display_buffer.pvContext = None
 
 def phxlive():
-    import sys
     # argc = len(sys.argv)
     #
     # argv = (ctypes.c_char_p * argc)(*map(lambda arg: ctypes.create_string_buffer(arg.encode('utf-8')), sys.argv))

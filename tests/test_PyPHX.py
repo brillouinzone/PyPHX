@@ -1,10 +1,9 @@
-from phx_api import *
+from PyPHX import *
 import os
 
-
+localpath= os.path.dirname(os.path.realpath(__file__))
 # Load the DLL
-directory="C:/Users/Public/Documents/Active Silicon/ActiveSDK v01.08.12/examples/build/windows/output/x64_Release"
-dll_path = os.path.abspath(os.path.join(directory,'phx_live_dll_2.dll'))
+dll_path = os.path.abspath(os.path.join(localpath,'..','build','x64_Release', 'phx.dll'))
 phxdll=PyPHX(libpath=dll_path)
 #variables
 hCamera = tHandle()
