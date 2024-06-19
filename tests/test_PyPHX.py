@@ -1,9 +1,11 @@
 from PyPHX import *
 import os
 
-localpath= os.path.dirname(os.path.realpath(__file__))
+# localpath= os.path.dirname(os.path.realpath(__file__))
+localpath = os.getcwd()
+print(localpath)
 # Load the DLL
-dll_path = os.path.abspath(os.path.join(localpath,'..','build','x64_Release', 'phx.dll'))
+dll_path = os.path.abspath(os.path.join(localpath,'..','c','PHXGrabberLib','x64','Release', 'phx.dll'))
 phxdll=PyPHX(libpath=dll_path)
 #variables
 hCamera = tHandle()

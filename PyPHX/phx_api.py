@@ -1,5 +1,4 @@
-from phx_types import *
-from common import *
+from .phx_types import *
 import ctypes,os
 import threading
 import numpy as np
