@@ -44,7 +44,7 @@ class PyPHX:
         self.phx_lib.InitLive.argtypes = [ctypes.POINTER(tPhxLive)]
 
         self.phx_lib.ParameterGet.restype = ctypes.c_int
-        self.phx_lib.ParameterGet.argtypes = [tHandle, ctypes.c_int, ctypes.c_void_p]
+        self.phx_lib.ParameterGet.argtypes = [tHandle, ctypes.c_int, ctypes.POINTER(ui32)]
 
         self.phx_lib.ParameterSet.restype = ctypes.c_int
         self.phx_lib.ParameterSet.argtypes = [tHandle, ctypes.c_int, ctypes.c_void_p]
@@ -52,11 +52,20 @@ class PyPHX:
     def InitLive(self,sPhxLive):
         return self.phx_lib.InitLive(ctypes.byref(sPhxLive))
 
-    def Create(self, handle, error_handler):
-        return self.phx_lib.Create(ctypes.byref(handle), error_handler)
+    def Create(self,  error_handler):
+        handle = tHandle(0)
+        return self.phx_lib.Create(ctypes.byref(handle), error_handler), handle.value
 
     def Open(self, handle):
         return self.phx_lib.Open(handle)
+
+    def ParameterSet(self, handle, etparam, data):
+        return self.phx_lib.ParameterSet(handle, etparam, ctypes.byref(data))
+
+    def ParameterGet(self, handle, param):
+        data = ui32()
+        status = self.phx_lib.ParameterGet(handle, param, ctypes.byref(data))
+        return status, data.value
 
         # self.phx_lib.StreamRead.restype = etStat
         # self.phx_lib.StreamRead.argtypes = [tHandle, etAcq, ctypes.c_void_p]
