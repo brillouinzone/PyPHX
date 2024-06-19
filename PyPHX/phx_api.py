@@ -1,10 +1,10 @@
-from phx_types import *
+from .phx_types import *
 import ctypes,os
 
 class PyPHX:
     def __init__(self, libpath=None):
         if libpath is None:
-            raise ValueError("must supply a path to the phx_api.dll (create by compiling the phx_api.h with all .lib files linked.)")
+            raise ValueError("must supply a path to the PyPHX.dll (create by compiling the PyPHX.h with all .lib files linked.)")
 
 
         # Function to check if a function exists in the DLL
