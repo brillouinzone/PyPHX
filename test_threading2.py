@@ -80,7 +80,13 @@ def main():
     print("waiting for capture trigger")
 
     # Wait for the loop thread to exit
-    phxdll.access_buffer()
+    t0=time.perf_counter()
+    while (time.perf_counter()-t0 < 3):
+        tic = 1000*time.perf_counter()
+        phxdll.access_buffer()
+        toc = 1000*time.perf_counter()
+        elapsed = toc - tic
+        print(f"time elapsed{elapsed:0.5f}")
     time.sleep(1)
     # Get the buffer details
     buffer_address = phxdll.get_buffer_address()

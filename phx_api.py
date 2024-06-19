@@ -1,5 +1,10 @@
 from phx_types import *
+from common import *
 import ctypes,os
+import threading
+import numpy as np
+import matplotlib.pyplot as plt
+import time
 
 class PyPHX:
     def __init__(self, libpath=None):
@@ -48,6 +53,88 @@ class PyPHX:
 
         self.phx_lib.ParameterSet.restype = ctypes.c_int
         self.phx_lib.ParameterSet.argtypes = [tHandle, ctypes.c_int, ctypes.c_void_p]
+
+        #macro function prototypes
+
+        self.phx_lib.get_buffer_address.restype = ctypes.POINTER(ctypes.c_uint16)  # Change to 16-bit
+        self.phx_lib.get_buffer_width.restype = ctypes.c_uint32
+        self.phx_lib.get_buffer_height.restype = ctypes.c_uint32
+
+        self.phx_lib.InitPhxCmd.argtypes = []
+        self.phx_lib.InitPhxCmd.restype = tPhxCmd
+
+        self.phx_lib.InitCameraRegs.argtypes = []
+        self.phx_lib.InitCameraRegs.restype = tCxpRegisters
+
+        self.phx_lib.InitMemory.argtypes = [tPhxCmd, tCxpRegisters]
+        self.phx_lib.InitMemory.restype = ctypes.c_int
+
+        self.phx_lib.InitPhxCommonKbInit.argtypes = []
+        self.phx_lib.InitPhxCommonKbInit.restype = None
+
+        self.phx_lib.InitPhxCommonKbClose.argtypes = []
+        self.phx_lib.InitPhxCommonKbClose.restype = None
+
+        self.phx_lib.Initphxlive.argtypes = [tPhxCmd, tCxpRegisters]
+        self.phx_lib.Initphxlive.restype = c_int
+
+        self.phx_lib.stop_looping.argtypes = []
+        self.phx_lib.stop_looping.restype = None
+
+        self.phx_lib.access_buffer.argtypes = []
+        self.phx_lib.access_buffer.restype = None
+    def phxlive(self):
+        import sys
+        # argc = len(sys.argv)
+        #
+        # argv = (ctypes.c_char_p * argc)(*map(lambda arg: ctypes.create_string_buffer(arg.encode('utf-8')), sys.argv))
+
+        sPhxCmd = self.phx_lib.InitPhxCmd()
+        sCameraRegs = self.phx_lib.InitCameraRegs()
+        nStatus = self.phx_lib.InitMemory(sPhxCmd, sCameraRegs)
+        # Initialize the display buffer
+
+        self.phx_lib.InitPhxCommonKbInit()
+        self.phx_lib.Initphxlive(sPhxCmd, sCameraRegs)
+        self.phx_lib.InitPhxCommonKbClose()
+
+        return 0
+
+    def live_run(self):
+        # Start the C function in a separate thread
+
+
+        loop_thread = threading.Thread(target=self.phxlive)
+        loop_thread.start()
+        time.sleep(1)
+
+        print("waiting for capture trigger")
+
+        # Wait for the loop thread to exit
+        t0 = time.perf_counter()
+        self.phx_lib.access_buffer()
+        time.sleep(1)
+        # Get the buffer details
+        buffer_address = self.phx_lib.get_buffer_address()
+        buffer_width = self.phx_lib.get_buffer_width()
+        buffer_height = self.phx_lib.get_buffer_height()
+
+        if buffer_address:
+            # Convert the buffer to a NumPy array
+            buffer_size = buffer_width * buffer_height
+            buffer_array = np.ctypeslib.as_array(buffer_address, shape=(buffer_size,))
+            buffer_image = buffer_array.reshape((buffer_height, buffer_width))
+            plt.figure()
+            plt.imshow(buffer_image)
+            print(f"npmax = {np.max(buffer_image)}")
+            plt.show()
+
+        else:
+            print("Buffer address is NULL")
+
+        # Wait for the loop thread to exit
+        self.phx_lib.stop_looping()
+        loop_thread.join()
 
     def InitLive(self,sPhxLive):
         return self.phx_lib.InitLive(ctypes.byref(sPhxLive))
