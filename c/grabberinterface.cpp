@@ -304,3 +304,4 @@ void GrabberInterface::releaseGrabber()
     messageOutput("Grabber released\n\n - - - - - - - - - - - - - - - \n");
 
 }
+
