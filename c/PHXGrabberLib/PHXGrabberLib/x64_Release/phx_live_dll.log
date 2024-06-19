@@ -1,0 +1,8 @@
+﻿  phx_live_dll.c
+C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\source\c\phx_live_dll\phx_live_dll.c(440,20): warning C4189: 'nStatus': local variable is initialized but not referenced
+C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\source\c\phx_live_dll\phx_live_dll.c(438,20): warning C4101: 'sCameraRegs': unreferenced local variable
+C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\source\c\phx_live_dll\phx_live_dll.c(452,20): warning C4189: 'nStatus': local variable is initialized but not referenced
+C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\source\c\phx_live_dll\phx_live_dll.c(467): warning C4715: 'InitMemory': not all control paths return a value
+C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\source\c\phx_live_dll\phx_live_dll.c(506): warning C4700: uninitialized local variable 'DisplayBuff' used
+     Creating library ..\..\output\x64_Release\phx_live_dll.lib and object ..\..\output\x64_Release\phx_live_dll.exp
+  phx_live_dll.vcxproj -> C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\build\windows\output\x64_Release\phx_live_dll.dll

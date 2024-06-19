@@ -1,0 +1,5 @@
+﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  phx_live.c
+  common.c
+  Generating Code...
+  phx_live.vcxproj -> C:\Users\Public\Documents\Active Silicon\ActiveSDK v01.08.12\examples\build\windows\output\x64_Debug\phx_live.exe
