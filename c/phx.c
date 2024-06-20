@@ -48,6 +48,7 @@ volatile bool stop_loop = false;
 volatile bool read_buffer = false;
 volatile bool save_config = false;
 
+tCxpRegisters sCameraRegs;
 tPhxLive       sPhxLive;                                 /* User defined event context */
 tHandle        hCamera = 0;           /* Camera handle */
 tPHX           hDisplay = 0;           /* Display handle */
@@ -167,9 +168,9 @@ static void phxlive_callback(tHandle hCamera, ui32 dwInterruptMask, void* pvPara
 int phxsave (char * filename){
 /*save pcf to file*/
     PHX_Action(hCamera, PHX_CONFIG_SAVE, PHX_SAVE_ALL, filename);
-    }
-
-int phxbuffer (){
+    return 0
+}
+int phxcreatebuffers (){
     /* Malloc space to hold the array of image pointers */
     psImageBuffers = (stImageBuff*)malloc((dwBufferCount+1) * sizeof(stImageBuff));
     if (NULL == psImageBuffers) {
@@ -254,8 +255,7 @@ int phxbuffer (){
     }
    return 0;
 }
-
-int phxerror(tCxpRegisters sCameraRegs){
+int phxerror(){
 
 /* Now cease all captures */
     if (hCamera) {
@@ -295,7 +295,139 @@ int phxerror(tCxpRegisters sCameraRegs){
     return 0;
 
 }
+int phxdestroybuffers(){
 
+/* Now cease all captures */
+    if (hCamera) {
+        /* Stop camera */
+        if (fIsCxpCameraDiscovered && sCameraRegs.dwAcqStopAddress) {
+            PhxCommonWriteCxpReg(hCamera, sCameraRegs.dwAcqStopAddress, sCameraRegs.dwAcqStopValue, 800);
+        }
+        /* Stop frame grabber */
+        PHX_StreamRead(hCamera, PHX_ABORT, NULL);
+    }
+
+    for (i = 0; i < (int)dwBufferCount; i++)
+        if (phCaptureBuffers[i]) PBL_BufferDestroy(&phCaptureBuffers[i]);
+
+#if defined _PHX_DISPLAY
+    /* Free our display resources */
+    if (hDisplayBuffer) PDL_BufferDestroy(&hDisplayBuffer);
+
+    /* Destroy our display */
+    if (hDisplay) PDL_DisplayDestroy(&hDisplay);
+#endif
+
+    /* Free remaining resources */
+    if (psImageBuffers) free(psImageBuffers);
+    if (phCaptureBuffers) free(phCaptureBuffers);
+
+    printf("Exiting\n");
+    return 0;
+
+}
+int phxclose(){
+    /* Release the board */
+    if (hCamera) {
+        /* Close the board */
+        PHX_Close(&hCamera);
+
+        /* Destroy the handle */
+        PHX_Destroy(&hCamera);
+    }
+    return 0;
+}
+int phxstreamlive(){
+
+    while (!sPhxLive.fFifoOverflow && !stop_loop) {
+        stImageBuff    stBuffer;
+        /* Wait here until either:
+         * (a) The user aborts the wait bychanging the bool
+         * (b) The BufferReady event occurs indicating that the image is complete
+         * (c) The FIFO overflow event occurs indicating that the image is corrupt.
+         * Keep calling the sleep function to avoid burning CPU cycles
+         */
+
+        while (!sPhxLive.fBufferReady && !sPhxLive.fFifoOverflow) {
+            _PHX_SleepMs(10);
+            /*printf("fBufferReady: %d, fFifoOverflow: %d\n",
+                sPhxLive.fBufferReady, sPhxLive.fFifoOverflow);*/
+        //    _PHX_SleepMs(10);
+        //    printf("fBufferReady: %d, fFifoOverflow: %d, stop_loop: %d\n",
+        //        sPhxLive.fBufferReady, sPhxLive.fFifoOverflow, stop_loop);
+        }
+        //printf("\n buffer ready \n");
+        if (dwBufferReadyLast != sPhxLive.dwBufferReadyCount) {
+            ui32 dwStaleBufferCount;
+            /* If the processing is too slow to keep up with acquisition,
+             * then there may be more than 1 buffer ready to process.
+             * The application can either be designed to process all buffers
+             * knowing that it will catch up, or as here, throw away all but the
+             * latest
+             */
+            dwStaleBufferCount = sPhxLive.dwBufferReadyCount - dwBufferReadyLast;
+            dwBufferReadyLast += dwStaleBufferCount;
+
+            /* Throw away all but the last image */
+            if (1 < dwStaleBufferCount) {
+                do {
+                    printf(("throwing away stale buffer %d \n", dwStaleBufferCount));
+                    eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
+                    if (PHX_OK != eStat) goto Error;
+                    dwStaleBufferCount--;
+                } while (dwStaleBufferCount > 1);
+            }
+        }
+
+        sPhxLive.fBufferReady = FALSE;
+
+        /* Get the info for the last acquired buffer */
+        eStat = PHX_StreamRead(hCamera, PHX_BUFFER_GET, &stBuffer);
+        if (PHX_OK != eStat)
+            printf("\nFailed to StreamRead last aquired buffer\n");
+
+        /* Process the newly acquired buffer,
+         * which in this simple example is a call to display the data.
+         * For our display function we use the pvContext member variable to
+         * pass a display buffer handle.
+         * Alternatively the actual video data can be accessed at stBuffer.pvAddress
+         *
+         */
+        hBuffHandle = (tPHX)stBuffer.pvContext;
+
+        /* This copies/converts data from the direct capture buffer to the indirect display buffer */
+        eStat = PIL_Convert(hBuffHandle, hDisplayBuffer);
+        if (PHX_OK != eStat)
+            printf("\nFailed to convert buffers\n");
+
+#if defined _PHX_DISPLAY
+        if (PHX_OK == eStat)
+            PDL_BufferPaint(hDisplayBuffer);
+#else
+        printf("EventCount = %5d\r", sPhxLive.dwBufferReadyCount);
+#endif
+
+        if (read_buffer) {
+            printf("buffer accessed\n");
+            memcpy(globalBuffer, stBuffer.pvAddress, globalBufferWidth * globalBufferHeight * sizeof(uint16_t));
+            //memcpy(globalBuffer, psImageBuffers[0].pvAddress, globalBufferWidth*globalBufferHeight);
+            read_buffer = false;
+        }
+        /* Having processed the data, release the buffer ready for further image data */
+        eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
+        if (PHX_OK != eStat)
+            printf("\nFailed to release buffer\n");
+
+        if (save_config) {
+            PHX_Action(hCamera, PHX_CONFIG_SAVE, PHX_SAVE_ALL, "NIT.pcf");
+        }
+
+
+       // printf("\nFinished looping 409\n");
+        c++;
+    }
+    return 0;
+}
 int phxconfig(
     etParamValue   eBoardNumber,        /* Board number, i.e. 1, 2, or 0 for next available */
     etParamValue   eChannelNumber,      /* Channel number */
