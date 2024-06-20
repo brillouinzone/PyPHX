@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHX.dll</FullPath>
+      <FullPath>C:\Users\User\PycharmProjects\PyPHX\c\PHX\x64\Release\PHX.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

@@ -1,6 +1,6 @@
-QT += core gui
+QT += core gui widgets
 
-TARGET = GrabberLib
+TARGET = GrabberLib_Q
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -8,12 +8,17 @@ SOURCES += main.cpp \
     grabberconsolewidget.cpp \
     grabberthread.cpp
 
-HEADERS += \
-    grabberinterface.h \
+HEADERS += grabberinterface.h \
     grabberconsolewidget.h \
     grabberthread.h
 
-include(PhoenixSDK.pri)
+INCLUDEPATH += ActiveSDK/include
+
+LIBS += -L../ActiveSDK/Lib/win64 \
+    -lphxdlx64 \
+    -lphxblx64 \
+    -lphxilx64 \
+    -lphxlx64
 
 OTHER_FILES +=
 

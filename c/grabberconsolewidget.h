@@ -2,7 +2,12 @@
 #define GRABBERCONSOLEWIDGET_H
 
 #include <QtGui>
+#include <qwidget.h>
 #include "grabberinterface.h"
+#include <QPushButton>
+#include <QCheckBox>
+#include <QLabel>
+#include <QPlainTextEdit>
 #include "grabberthread.h"
 
 class GrabberConsoleWidget : public QWidget

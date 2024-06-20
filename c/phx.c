@@ -68,9 +68,10 @@ ui32           dwImageHeight = 1020;
 ui32           camWidth = 1280;
 ui32           camHeight = 1020;
 ui32           dwBufferWidth=2*1280;
-ui32 dwBufferStride = 1*dwBufferWidth;
+ui32 dwBufferStride = 2*1280;
 ui32           imperbuf = 1;
-ui32           dwBufferHeight=imperbuf*1020;
+int i;
+ui32           dwBufferHeight=1020;
 ui32           dwBufferCount = 1;
 tFlag          fCameraIsCxp = FALSE;
 tFlag          fIsCxpCameraDiscovered = FALSE;
@@ -168,8 +169,9 @@ static void phxlive_callback(tHandle hCamera, ui32 dwInterruptMask, void* pvPara
 int phxsave (char * filename){
 /*save pcf to file*/
     PHX_Action(hCamera, PHX_CONFIG_SAVE, PHX_SAVE_ALL, filename);
-    return 0
+    return 0;
 }
+
 int phxcreatebuffers (){
     /* Malloc space to hold the array of image pointers */
     psImageBuffers = (stImageBuff*)malloc((dwBufferCount+1) * sizeof(stImageBuff));
@@ -183,7 +185,7 @@ int phxcreatebuffers (){
         printf("Failed to allocate memory for the array of tPHX handles");
         phxerror();
     }
-
+    int i;
     /* Create and initialise our capture buffers (not associated with display) */
     for (i = 0; i < (int)dwBufferCount; i++) {
         printf("adding buffer %i", i);
@@ -338,7 +340,7 @@ int phxclose(){
     return 0;
 }
 int phxstreamlive(){
-
+    int c = 0;
     while (!sPhxLive.fFifoOverflow && !stop_loop) {
         stImageBuff    stBuffer;
         /* Wait here until either:
@@ -373,7 +375,7 @@ int phxstreamlive(){
                 do {
                     printf(("throwing away stale buffer %d \n", dwStaleBufferCount));
                     eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
-                    if (PHX_OK != eStat) goto Error;
+                    if (PHX_OK != eStat) phxerror();
                     dwStaleBufferCount--;
                 } while (dwStaleBufferCount > 1);
             }

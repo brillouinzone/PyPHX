@@ -1,10 +1,9 @@
 #include "grabberinterface.h"
-#include "common.h"
-#include "common.c"
+#include "common/common.h"
 #include "pdl_api.h"
 #include "phx_api.h"
 #include "phx_os.h"
-
+#include "common/common.c"
 #include <QtGui>
 #include <QThread>
 
@@ -98,9 +97,9 @@ bool GrabberInterface::isOpened() const
 void grabberErrorHandler( const char* pszFnName, etStat eErrCode, const char* pszDescString )
 {
     QString Error = "Phx Error: "
-                    + QString::fromAscii(pszFnName, strlen(pszFnName)) + " : "
+                    + QString::fromLatin1(pszFnName, strlen(pszFnName)) + " : "
                     + QString::number(eErrCode) + " : "
-                    + QString::fromAscii(pszDescString, strlen(pszDescString));
+                    + QString::fromLatin1(pszDescString, strlen(pszDescString));
 
     qDebug() << Error;
 
@@ -117,19 +116,19 @@ bool GrabberInterface::configureGrabber()
    hBuffer1  = 0;
    hBuffer2  = 0;
 
-   char *argv[0];
+   char* argv[1] = { nullptr };
 
    PhxCommonParseCmd( 0, argv, &phxGrabberInfo );
    PhxCommonKbInit();
 
    memset( &eventContext, 0, sizeof(eventContext));
 
-   phxGrabberInfo.eCamConfigLoad = (etCamConfigLoad) ( PHX_DIGITAL | PHX_ACQ_ONLY | PHX_CHANNEL_AUTO );
-
+//   phxGrabberInfo.eCamConfigLoad = (etCamConfigLoad) ( PHX_DIGITAL | PHX_ACQ_ONLY | PHX_CHANNEL_AUTO );
+   etCamConfigLoad configOptions = static_cast<etCamConfigLoad>(PHX_DIGITAL | PHX_ACQ_ONLY | PHX_CHANNEL_AUTO);
    // Allocate the board with the config file
    eStatus = PHX_CameraConfigLoad( &hCamera,
-                                   cameraConfigFile.toAscii().data(),
-                                   phxGrabberInfo.eCamConfigLoad,
+                                   cameraConfigFile.toLatin1().data(),
+                                   configOptions,
                                    &grabberErrorHandler );
    if ( PHX_OK != eStatus ) {
        _lastError = "camera configuaration error";

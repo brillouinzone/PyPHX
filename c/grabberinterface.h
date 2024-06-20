@@ -6,7 +6,7 @@
 
 #include <QtCore/QObject>
 #include "phx_os.h"
-#include "common.h"
+#include "common/common.h"
 
 
 // Define an application specific structure to hold user information

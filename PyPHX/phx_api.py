@@ -27,6 +27,8 @@ class PyPHX:
                         # Load the DLL
             self.phx_lib = ctypes.CDLL(libpath)
 
+        #object will live run and then python will grab images from the buffer
+        self.loop_thread = threading.Thread(target=self.phxlive)
 
         # Define function prototypes
         self.phx_lib.Action.restype = ctypes.c_int
@@ -99,20 +101,12 @@ class PyPHX:
 
         return 0
 
-    def live_run(self):
-        # Start the C function in a separate thread
-
-
-        loop_thread = threading.Thread(target=self.phxlive)
-        loop_thread.start()
-        time.sleep(1)
-
+    def grab(self):
         print("waiting for capture trigger")
 
         # Wait for the loop thread to exit
         t0 = time.perf_counter()
         self.phx_lib.access_buffer()
-        time.sleep(1)
         # Get the buffer details
         buffer_address = self.phx_lib.get_buffer_address()
         buffer_width = self.phx_lib.get_buffer_width()
@@ -122,18 +116,23 @@ class PyPHX:
             # Convert the buffer to a NumPy array
             buffer_size = buffer_width * buffer_height
             buffer_array = np.ctypeslib.as_array(buffer_address, shape=(buffer_size,))
-            buffer_image = buffer_array.reshape((buffer_height, buffer_width))
-            plt.figure()
-            plt.imshow(buffer_image)
-            print(f"npmax = {np.max(buffer_image)}")
-            plt.show()
+            self.buffer_image = buffer_array.reshape((buffer_height, buffer_width))
 
         else:
             print("Buffer address is NULL")
 
-        # Wait for the loop thread to exit
+    def show_image(self):
+        plt.figure()
+        plt.imshow(self.buffer_image)
+        print(f"npmax = {np.max(self.buffer_image)}")
+        plt.show()
+    def live_run(self):
+        # Start the C function in a separate thread
+        self.loop_thread.start()
+
+    def Close(self):
         self.phx_lib.stop_looping()
-        loop_thread.join()
+        self.loop_thread.join()
 
     def InitLive(self,sPhxLive):
         return self.phx_lib.InitLive(ctypes.byref(sPhxLive))

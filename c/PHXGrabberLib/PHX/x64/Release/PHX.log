@@ -1,13 +1,18 @@
 ﻿  common.c
 C:\Users\User\PycharmProjects\PyPHX\c\common\common.c(287,14): warning C4101: 'szDisplayName': unreferenced local variable
   phx.c
-C:\Users\User\PycharmProjects\PyPHX\c\phx.c(436,84): warning C4047: 'function': 'const char *const ' differs in levels of indirection from 'ui32'
-C:\Users\User\PycharmProjects\PyPHX\c\phx.c(436,63): warning C4024: 'printf': different types for formal and actual parameter 1
-C:\Users\User\PycharmProjects\PyPHX\c\phx.c(562,20): warning C4101: 'sCameraRegs': unreferenced local variable
-     Creating library C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHX.lib and object C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHX.exp
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(180,9): warning C4013: 'phxerror' undefined; assuming extern returning int
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(376,84): warning C4047: 'function': 'const char *const ' differs in levels of indirection from 'ui32'
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(376,63): warning C4024: 'printf': different types for formal and actual parameter 1
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(601,84): warning C4047: 'function': 'const char *const ' differs in levels of indirection from 'ui32'
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(601,63): warning C4024: 'printf': different types for formal and actual parameter 1
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(1004,84): warning C4047: 'function': 'const char *const ' differs in levels of indirection from 'ui32'
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(1004,63): warning C4024: 'printf': different types for formal and actual parameter 1
+C:\Users\User\PycharmProjects\PyPHX\c\phx.c(1130,20): warning C4101: 'sCameraRegs': unreferenced local variable
+     Creating library C:\Users\User\PycharmProjects\PyPHX\c\PHX\x64\Release\PHX.lib and object C:\Users\User\PycharmProjects\PyPHX\c\PHX\x64\Release\PHX.exp
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-C:\Users\User\PycharmProjects\PyPHX\c\phx.c(591): warning C4715: 'InitMemory': not all control paths return a value
-  All 35 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 35 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  PHX.vcxproj -> C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHX.dll
+  PHX.vcxproj -> C:\Users\User\PycharmProjects\PyPHX\c\PHX\x64\Release\PHX.dll

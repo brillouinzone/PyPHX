@@ -1,6 +1,7 @@
 #include "grabberconsolewidget.h"
 #include "grabberinterface.h"
 #include "grabberthread.h"
+#include "qgridlayout.h"
 
 GrabberConsoleWidget::GrabberConsoleWidget(QWidget *parent) :
     QWidget(parent)
