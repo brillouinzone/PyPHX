@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\grabberconsolewidget.cpp" />
+    <ClCompile Include="..\..\grabberinterface.cpp" />
+    <ClCompile Include="..\..\grabberthread.cpp" />
+    <ClCompile Include="..\..\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\grabberconsolewidget.h" />
+    <ClInclude Include="..\..\grabberinterface.h" />
+    <ClInclude Include="..\..\grabberthread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\GrabberLib.pro" />
+    <None Include="..\..\PhoenixSDK.pri" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

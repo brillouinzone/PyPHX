@@ -41,12 +41,7 @@
 #include <stdint.h>
 #include <windows.h>
 
-/* Define an application-specific structure to hold user information */
-typedef struct {
-    volatile ui32 dwBufferReadyCount;
-    volatile tFlag fBufferReady;
-    volatile tFlag fFifoOverflow;
-} tPhxLive;
+
 
 /*Globals*/
 volatile bool stop_loop = false;
@@ -179,6 +174,8 @@ int phxlive(
     tFlag          fIsCxpCameraDiscovered = FALSE;
     int            i;
 
+    int c = 0;
+
     /* Initialise the user defined Event context structure */
     memset(&sPhxLive, 0, sizeof(tPhxLive));
 
@@ -192,10 +189,12 @@ int phxlive(
 
     /* Set the board number */
     eStat = PHX_ParameterSet(hCamera, PHX_BOARD_NUMBER, &eBoardNumber);
+    printf("initial board number = %u \n", eBoardNumber);
     if (PHX_OK != eStat) goto Error;
 
     /* Set the channel number */
     eStat = PHX_ParameterSet(hCamera, PHX_CHANNEL_NUMBER, &eChannelNumber);
+    printf("initial channel number = %u \n", eChannelNumber);
     if (PHX_OK != eStat) goto Error;
 
     /* Set the configuration mode */
@@ -398,7 +397,6 @@ int phxlive(
     /* Continue processing data until the user presses a stops the acquisition
      * or a FIFO overflow is detected
      */
-    int c = 0;
 
     /*save pcf to file*/
     PHX_Action(hCamera, PHX_CONFIG_SAVE, PHX_SAVE_ALL, "Sens128016bit.pcf");
