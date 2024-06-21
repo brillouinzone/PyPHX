@@ -1175,6 +1175,11 @@ __declspec(dllexport) int Initphxlive(tPhxCmd sPhxCmd, tCxpRegisters sCameraRegs
     return 0;
 }
 
+__declspec(dllexport) int Initphxlive(tPhxCmd sPhxCmd, tCxpRegisters sCameraRegs)
+{
+    phxlive(sPhxCmd.eBoardNumber, sPhxCmd.eChannelNumber, sPhxCmd.pszConfigFileName, sCameraRegs, sPhxCmd.eConfigMode);
+    return 0;
+}
 //__declspec(dllexport) stImageBuff get_display_buffer()
 //{
 //    return expDisplayBuff;

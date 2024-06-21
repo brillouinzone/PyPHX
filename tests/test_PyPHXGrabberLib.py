@@ -10,6 +10,17 @@ dll_path = os.path.abspath(os.path.join(localpath,'..','c','PHXGrabberLib','x64'
 # Load the shared library
 lib = ctypes.CDLL(dll_path)
 
+lib.get_buffer_address.restype = ctypes.POINTER(ctypes.c_uint16)  # Change to 16-bit
+lib.get_buffer_width.restype = ctypes.c_uint32
+lib.get_buffer_height.restype = ctypes.c_uint32
+
+#booleans
+lib.stop_looping.argtypes = []
+lib.stop_looping.restype = None
+
+lib.access_buffer.argtypes = []
+lib.access_buffer.restype = None
+
 # Define the argument and return types of the functions
 lib.create_phxgrabber.restype = c_void_p
 lib.create_phxgrabber.argtypes = []

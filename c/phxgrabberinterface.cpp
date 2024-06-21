@@ -18,30 +18,38 @@
 
 
 
-/*Globals*/
-volatile bool stop_loop = false;
-volatile bool read_buffer = false;
-volatile bool save_config = false;
-uint16_t* globalBuffer = NULL;
-/*this size used when transferring the capture buffer*/
-/*multiply by 2 if 14 or 16 bit image*/
-uint32_t globalBufferWidth = 1280;
-uint32_t globalBufferHeight = 1020;
-/* Function to get the buffer address */
+///*Globals*/
+//volatile bool stop_loop = false;
+//volatile bool read_buffer = false;
+//volatile bool save_config = false;
+//uint16_t* globalBuffer = NULL;
+///*this size used when transferring the capture buffer*/
+///*multiply by 2 if 14 or 16 bit image*/
+//uint32_t globalBufferWidth = 1280;
+//uint32_t globalBufferHeight = 1020;
+///* Function to get the buffer address */
+namespace PHXNamespace {
+    bool stop_loop = false;
+    bool read_buffer = false;
+    bool save_config = false;
+    uint16_t* globalBuffer = nullptr;
+    uint32_t globalBufferWidth = 1280;
+    uint32_t globalBufferHeight = 1020;
+}
 
 /* Function to get the buffer address */
 __declspec(dllexport) uint16_t* get_buffer_address() {
-    return globalBuffer;
+    return PHXNamespace::globalBuffer;
 }
 
 /* Function to get the buffer width */
 __declspec(dllexport) uint32_t get_buffer_width() {
-    return globalBufferWidth;
+    return PHXNamespace::globalBufferWidth;
 }
 
 /* Function to get the buffer height */
 __declspec(dllexport) uint32_t get_buffer_height() {
-    return globalBufferHeight;
+    return PHXNamespace::globalBufferHeight;
 }
 /* Create a channel handle */
 static void phxlive_callback(tHandle hCamera, ui32 dwInterruptMask, void* pvParams) {
@@ -139,9 +147,26 @@ void grabberErrorHandler(const char* pszFnName, etStat eErrCode, const char* psz
     std::cerr << error << std::endl;
     //messageOutput(_lastError + "\nAborting...\n");
 }
-
+int PHXGrabberInterface::live(char* file) {
+    return ::live(
+        file,
+        globalBuffer,
+        globalBufferWidth,
+        globalBufferHeight,
+        stop_loop,
+        read_buffer,
+        save_config
+    );
+}
 bool PHXGrabberInterface::configureGrabberLegacy() {
-    live();
+
+    char* cCameraConfigFile = new char[cameraConfigFile.length() + 1];
+    std::strcpy(cCameraConfigFile, cameraConfigFile.c_str());
+    int status = live(
+        cCameraConfigFile
+    );
+    delete[] cCameraConfigFile;
+    return status == 0;
     return 0;
 }
 bool PHXGrabberInterface::configureGrabber() {
