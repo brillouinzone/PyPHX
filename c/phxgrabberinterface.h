@@ -8,6 +8,7 @@
 #include "phx_os.h"
 #include "common/common.h"
 
+
 // Define an application specific structure to hold user information
 typedef struct {
     volatile ui32 nBufferReadyCount;
@@ -49,6 +50,7 @@ private:
     tPHX           hBuffHandle;
 
     bool configureGrabber();
+    bool configureGrabberLegacy();
     bool livePicture();
     void releaseGrabber();
     void setState(bool isOpened);

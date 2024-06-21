@@ -5,7 +5,7 @@ import os
 localpath = os.getcwd()
 print(localpath)
 # Load the DLL
-dll_path = os.path.abspath(os.path.join(localpath,'..','c','PHXGrabberLib','x64','Release', 'phx.dll'))
+dll_path = os.path.abspath(os.path.join(localpath,'..','c','PHXGrabberLib','x64','Release', 'PHXGrabberLib.dll'))
 
 # Load the shared library
 lib = ctypes.CDLL(dll_path)
