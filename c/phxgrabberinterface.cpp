@@ -28,28 +28,20 @@
 //uint32_t globalBufferWidth = 1280;
 //uint32_t globalBufferHeight = 1020;
 ///* Function to get the buffer address */
-namespace PHXNamespace {
-    bool stop_loop = false;
-    bool read_buffer = false;
-    bool save_config = false;
-    uint16_t* globalBuffer = nullptr;
-    uint32_t globalBufferWidth = 1280;
-    uint32_t globalBufferHeight = 1020;
-}
 
 /* Function to get the buffer address */
-__declspec(dllexport) uint16_t* get_buffer_address() {
-    return PHXNamespace::globalBuffer;
+uint16_t* PHXGrabberInterface::get_buffer_address() {
+    return globalBuffer;
 }
 
 /* Function to get the buffer width */
-__declspec(dllexport) uint32_t get_buffer_width() {
-    return PHXNamespace::globalBufferWidth;
+uint32_t PHXGrabberInterface::get_buffer_width() {
+    return globalBufferWidth;
 }
 
 /* Function to get the buffer height */
-__declspec(dllexport) uint32_t get_buffer_height() {
-    return PHXNamespace::globalBufferHeight;
+uint32_t PHXGrabberInterface::get_buffer_height() {
+    return globalBufferHeight;
 }
 /* Create a channel handle */
 static void phxlive_callback(tHandle hCamera, ui32 dwInterruptMask, void* pvParams) {
@@ -406,4 +398,45 @@ void PHXGrabberInterface::messageOutput(const std::string& message) {
 
 void PHXGrabberInterface::updateEventCounter(int count) {
     // Implement the event counter update if needed
+}
+
+// External functions
+PHXGrabberInterface* create_phxgrabber() {
+    return new PHXGrabberInterface();
+}
+
+void destroy_phxgrabber(PHXGrabberInterface* handle) {
+    delete handle;
+}
+
+void phxgrabber_open(PHXGrabberInterface* handle, const char* cameraConfigFile) {
+    handle->open(cameraConfigFile);
+}
+
+void phxgrabber_close(PHXGrabberInterface* handle) {
+    handle->close();
+}
+
+int phxgrabber_is_opened(PHXGrabberInterface* handle) {
+    return handle->isOpened();
+}
+
+const char* phxgrabber_last_error(PHXGrabberInterface* handle) {
+    return handle->lastError().c_str();
+}
+
+void phxgrabber_set_event_counter_usage(PHXGrabberInterface* handle, int useEventCounter) {
+    handle->setEventCounterUsage(useEventCounter != 0);
+}
+
+uint16_t* get_buffer_address(PHXGrabberInterface* handle) {
+    return handle->get_buffer_address();
+}
+
+uint32_t get_buffer_width(PHXGrabberInterface* handle) {
+    return handle->get_buffer_width();
+}
+
+uint32_t get_buffer_height(PHXGrabberInterface* handle) {
+    return handle->get_buffer_height();
 }

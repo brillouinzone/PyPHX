@@ -32,3 +32,21 @@ const char* phxgrabber_last_error(PHXGrabberHandle handle) {
 void phxgrabber_set_event_counter_usage(PHXGrabberHandle handle, int useEventCounter) {
     static_cast<PHXGrabberInterface*>(handle)->setEventCounterUsage(useEventCounter != 0);
 }
+
+// Buffer access methods
+uint16_t* get_buffer_address(PHXGrabberHandle handle) {
+    return static_cast<PHXGrabberInterface*>(handle)->get_buffer_address();
+}
+
+uint32_t get_buffer_width(PHXGrabberHandle handle) {
+    return static_cast<PHXGrabberInterface*>(handle)->get_buffer_width();
+}
+
+uint32_t get_buffer_height(PHXGrabberHandle handle) {
+    return static_cast<PHXGrabberInterface*>(handle)->get_buffer_height();
+}
+
+void phxgrabber_set_stop_loop(PHXGrabberHandle handle, int stop) {
+    static_cast<PHXGrabberInterface*>(handle)->stop_loop = stop != 0;
+    printf("dll received stop loop command from external code \n");
+}

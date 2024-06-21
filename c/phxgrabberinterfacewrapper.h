@@ -1,8 +1,8 @@
 #ifndef PHXGRABBERINTERFACEWRAPPER_H
 #define PHXGRABBERINTERFACEWRAPPER_H
 
-
-
+#include <stdbool.h>
+#include <stdint.h>
 #ifdef _WIN32
 #ifdef BUILDING_DLL
 #define DLL_EXPORT __declspec(dllexport)
@@ -34,10 +34,15 @@ extern "C" {
 	// Event counter usage method
 	DLL_EXPORT void phxgrabber_set_event_counter_usage(PHXGrabberHandle handle, int useEventCounter);
 
+	// Buffer access methods
+	DLL_EXPORT uint16_t* get_buffer_address(PHXGrabberHandle handle);
+	DLL_EXPORT uint32_t get_buffer_width(PHXGrabberHandle handle);
+	DLL_EXPORT uint32_t get_buffer_height(PHXGrabberHandle handle);
+
+	DLL_EXPORT void phxgrabber_set_stop_loop(PHXGrabberHandle handle, int stop);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif // PHXGRABBERINTERFACEWRAPPER_H
-#pragma once
