@@ -10,15 +10,7 @@ extern "C" {
 
 
 	// Declaration of the live function
-	int live(
-        char* file,
-        uint16_t* globalBuffer,
-        uint32_t globalBufferWidth,
-        uint32_t globalBufferHeight,
-    volatile bool* stop_loop,
-    volatile bool* read_buffer,
-    volatile bool* save_config
-    );
+	int live(char* file);
 
 #ifdef __cplusplus
 }

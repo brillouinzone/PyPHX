@@ -32,7 +32,44 @@
 #include <stdint.h>
 
 
+///*Globals*/
+/*Globals*/
+volatile bool stop_loop = false;
+volatile bool read_buffer = false;
+volatile bool save_config = false;
+uint16_t* globalBuffer = NULL;
+/*this size used when transferring the capture buffer*/
+/*multiply by 2 if 14 or 16 bit image*/
+uint32_t globalBufferWidth = 1280;
+uint32_t globalBufferHeight = 1020;
 
+/* Function to get the buffer address */
+
+/* Function to get the buffer address */
+__declspec(dllexport) uint16_t* get_buffer_address() {
+    return globalBuffer;
+}
+
+/* Function to get the buffer width */
+__declspec(dllexport) uint32_t get_buffer_width() {
+    return globalBufferWidth;
+}
+
+/* Function to get the buffer height */
+__declspec(dllexport) uint32_t get_buffer_height() {
+    return globalBufferHeight;
+}
+__declspec(dllexport) void stop_looping() {
+    stop_loop = true;
+}
+
+__declspec(dllexport) void access_buffer() {
+    read_buffer = true;
+}
+
+__declspec(dllexport) void write_config() {
+    save_config = true;
+}
 /*
 phxlive_callback()
  * This is the callback function which handles the interrupt events.
@@ -75,13 +112,7 @@ int phxlive(
     etParamValue   eChannelNumber,      /* Channel number */
     char* pszConfigFileName,   /* Name of config file */
     tCxpRegisters  sCameraRegs,         /* Camera CXP registers */
-    etParamValue   eConfigMode,          /* PHX Configuration mode */
-    uint16_t* globalBuffer, 
-    uint32_t globalBufferWidth,
-    uint32_t globalBufferHeight, 
-    volatile bool* stop_loop,
-    volatile bool* read_buffer,
-    volatile bool* save_config
+    etParamValue   eConfigMode          /* PHX Configuration mode */
 )
 {
     etStat         eStat = PHX_OK;      /* Status variable */
@@ -296,20 +327,96 @@ int phxlive(
     /* Continue processing data until the user presses a key in the console window
      * or a FIFO overflow is detected
      */
-    int c = 0;
-    while (!PhxCommonKbHit() && !sPhxLive.fFifoOverflow ) {
-        stImageBuff stBuffer;
 
+
+     /* Allocate global buffer */
+    globalBuffer = (uint16_t*)malloc(globalBufferWidth * globalBufferHeight * sizeof(uint16_t));
+    if (globalBuffer == NULL) {
+        printf("Failed to allocate global buffer\n");
+        goto Error;
+    }
+
+    int c = 0;
+//    while (!PhxCommonKbHit() && !sPhxLive.fFifoOverflow && !stop_loop ) {
+//        stImageBuff stBuffer;
+//
+//        /* Wait here until either:
+//         * (a) The user aborts the wait by pressing a key in the console window
+//         * (b) The BufferReady event occurs indicating that the image is complete
+//         * (c) The FIFO overflow event occurs indicating that the image is corrupt.
+//         * Keep calling the sleep function to avoid burning CPU cycles
+//         */
+//        while (!PhxCommonKbHit() && !sPhxLive.fBufferReady && !sPhxLive.fFifoOverflow) {
+//            _PHX_SleepMs(10);
+//        }
+//
+//        if (dwBufferReadyLast != sPhxLive.dwBufferReadyCount) {
+//            ui32 dwStaleBufferCount;
+//            /* If the processing is too slow to keep up with acquisition,
+//             * then there may be more than 1 buffer ready to process.
+//             * The application can either be designed to process all buffers
+//             * knowing that it will catch up, or as here, throw away all but the
+//             * latest
+//             */
+//            dwStaleBufferCount = sPhxLive.dwBufferReadyCount - dwBufferReadyLast;
+//            dwBufferReadyLast += dwStaleBufferCount;
+//
+//            /* Throw away all but the last image */
+//            if (1 < dwStaleBufferCount) {
+//                do {
+//                    eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
+//                    if (PHX_OK != eStat) goto Error;
+//                    dwStaleBufferCount--;
+//                } while (dwStaleBufferCount > 1);
+//            }
+//        }
+//
+//        sPhxLive.fBufferReady = FALSE;
+//
+//        /* Get the info for the last acquired buffer */
+//        eStat = PHX_StreamRead(hCamera, PHX_BUFFER_GET, &stBuffer);
+//
+//        /* Process the newly acquired buffer,
+//         * which in this simple example is a call to display the data.
+//         * For our display function we use the pvContext member variable to
+//         * pass a display buffer handle.
+//         * Alternatively the actual video data can be accessed at stBuffer.pvAddress
+//         */
+//        hBuffHandle = (tPHX)stBuffer.pvContext;
+//
+//        /* This copies/converts data from the direct capture buffer to the indirect display buffer */
+//        eStat = PIL_Convert(hBuffHandle, hDisplayBuffer);
+//        if (PHX_OK != eStat)
+//            printf("\nFailed to convert buffers\n");
+//
+//#if defined _PHX_DISPLAY
+//        if (PHX_OK == eStat)
+//            PDL_BufferPaint(hDisplayBuffer);
+//#else
+//        printf("EventCount = %5d\r", sPhxLive.dwBufferReadyCount);
+//#endif
+//
+//        /* Having processed the data, release the buffer ready for further image data */
+//        PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
+//    }
+    while (!sPhxLive.fFifoOverflow && !stop_loop) {
+        stImageBuff    stBuffer;
         /* Wait here until either:
-         * (a) The user aborts the wait by pressing a key in the console window
+         * (a) The user aborts the wait bychanging the bool
          * (b) The BufferReady event occurs indicating that the image is complete
          * (c) The FIFO overflow event occurs indicating that the image is corrupt.
          * Keep calling the sleep function to avoid burning CPU cycles
          */
-        while (!PhxCommonKbHit() && !sPhxLive.fBufferReady && !sPhxLive.fFifoOverflow) {
-            _PHX_SleepMs(10);
-        }
 
+        while (!sPhxLive.fBufferReady && !sPhxLive.fFifoOverflow) {
+            _PHX_SleepMs(10);
+            /*printf("fBufferReady: %d, fFifoOverflow: %d\n",
+                sPhxLive.fBufferReady, sPhxLive.fFifoOverflow);*/
+                //    _PHX_SleepMs(10);
+                //    printf("fBufferReady: %d, fFifoOverflow: %d, stop_loop: %d\n",
+                //        sPhxLive.fBufferReady, sPhxLive.fFifoOverflow, stop_loop);
+        }
+        //printf("\n buffer ready \n");
         if (dwBufferReadyLast != sPhxLive.dwBufferReadyCount) {
             ui32 dwStaleBufferCount;
             /* If the processing is too slow to keep up with acquisition,
@@ -324,6 +431,7 @@ int phxlive(
             /* Throw away all but the last image */
             if (1 < dwStaleBufferCount) {
                 do {
+                    printf(("throwing away stale buffer %d \n", dwStaleBufferCount));
                     eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
                     if (PHX_OK != eStat) goto Error;
                     dwStaleBufferCount--;
@@ -335,12 +443,15 @@ int phxlive(
 
         /* Get the info for the last acquired buffer */
         eStat = PHX_StreamRead(hCamera, PHX_BUFFER_GET, &stBuffer);
+        if (PHX_OK != eStat)
+            printf("\nFailed to StreamRead last aquired buffer\n");
 
         /* Process the newly acquired buffer,
          * which in this simple example is a call to display the data.
          * For our display function we use the pvContext member variable to
          * pass a display buffer handle.
          * Alternatively the actual video data can be accessed at stBuffer.pvAddress
+         *
          */
         hBuffHandle = (tPHX)stBuffer.pvContext;
 
@@ -356,8 +467,29 @@ int phxlive(
         printf("EventCount = %5d\r", sPhxLive.dwBufferReadyCount);
 #endif
 
+        if (read_buffer) {
+            printf("buffer accessed\n");
+            memcpy(globalBuffer, stBuffer.pvAddress, globalBufferWidth * globalBufferHeight * sizeof(uint16_t));
+            //memcpy(globalBuffer, psImageBuffers[0].pvAddress, globalBufferWidth*globalBufferHeight);
+            read_buffer = false;
+        }
         /* Having processed the data, release the buffer ready for further image data */
-        PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
+        eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
+        if (PHX_OK != eStat)
+            printf("\nFailed to release buffer\n");
+
+        if (save_config) {
+            PHX_Action(hCamera, PHX_CONFIG_SAVE, PHX_SAVE_ALL, "NIT.pcf");
+        }
+
+
+        // printf("\nFinished looping 409\n");
+        c++;
+    }
+
+    if (stop_loop) {
+        //printf("loop canceled externally,..Aborting\n");
+        goto Error;
     }
     printf("\n");
 
@@ -485,15 +617,7 @@ Error:
 //    return nStatus;
 //}
 
-int live(
-    char* file,
-    uint16_t* globalBuffer,
-    uint32_t globalBufferWidth,
-    uint32_t globalBufferHeight,
-    bool stop_loop,
-    bool read_buffer,
-    bool save_config
-) {
+int live(char* file) {
     tCxpRegisters sCameraRegs;
     tPhxCmd sPhxCmd;
     int nStatus = -1;
@@ -514,14 +638,7 @@ int live(
         sPhxCmd.eChannelNumber,
         file,
         sCameraRegs,
-        sPhxCmd.eConfigMode,
-        globalBuffer,
-        globalBufferWidth,
-        globalBufferHeight,
-        stop_loop,
-        read_buffer,
-        save_config
-    );
+        sPhxCmd.eConfigMode);
     PhxCommonKbClose();
     return nStatus;
 }

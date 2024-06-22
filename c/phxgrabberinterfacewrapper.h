@@ -34,10 +34,10 @@ extern "C" {
 	// Event counter usage method
 	DLL_EXPORT void phxgrabber_set_event_counter_usage(PHXGrabberHandle handle, int useEventCounter);
 
-	// Buffer access methods
-	DLL_EXPORT uint16_t* get_buffer_address(PHXGrabberHandle handle);
-	DLL_EXPORT uint32_t get_buffer_width(PHXGrabberHandle handle);
-	DLL_EXPORT uint32_t get_buffer_height(PHXGrabberHandle handle);
+	//// Buffer access methods
+	//DLL_EXPORT uint16_t* get_buffer_address(PHXGrabberHandle handle);
+	//DLL_EXPORT uint32_t get_buffer_width(PHXGrabberHandle handle);
+	//DLL_EXPORT uint32_t get_buffer_height(PHXGrabberHandle handle);
 
 
 #ifdef __cplusplus

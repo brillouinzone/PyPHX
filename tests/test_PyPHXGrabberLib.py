@@ -2,6 +2,9 @@ import ctypes
 from ctypes import c_int, c_char_p, c_void_p, c_uint16, c_uint32, POINTER
 import os
 import threading
+import numpy as np
+import matplotlib.pyplot as plt
+import time
 
 localpath = os.getcwd()
 print(localpath)
@@ -33,17 +36,20 @@ lib.phxgrabber_last_error.argtypes = [c_void_p]
 lib.phxgrabber_set_event_counter_usage.restype = None
 lib.phxgrabber_set_event_counter_usage.argtypes = [c_void_p, c_int]
 
-lib.get_buffer_address.restype = POINTER(c_uint16)
-lib.get_buffer_address.argtypes = [c_void_p]
+lib.get_buffer_address.restype = ctypes.POINTER(ctypes.c_uint16)  # Change to 16-bit
+# lib.get_buffer_address.argtypes = [c_void_p]
 
 lib.get_buffer_width.restype = c_uint32
-lib.get_buffer_width.argtypes = [c_void_p]
+# lib.get_buffer_width.argtypes = [c_void_p]
 
 lib.get_buffer_height.restype = c_uint32
-lib.get_buffer_height.argtypes = [c_void_p]
+# lib.get_buffer_height.argtypes = [c_void_p]
 
+lib.stop_looping.argtypes = []
+lib.stop_looping.restype = None
 
-
+lib.access_buffer.argtypes = []
+lib.access_buffer.restype = None
 # Create a wrapper class in Python
 class PHXGrabberInterface:
     def __init__(self):
@@ -68,17 +74,45 @@ class PHXGrabberInterface:
         lib.phxgrabber_set_event_counter_usage(self.obj, use_event_counter)
 
     def get_buffer_address(self):
-        return lib.get_buffer_address(self.obj)
+        #macro function prototypes
+
+        return lib.get_buffer_address()
 
     def get_buffer_width(self):
-        return lib.get_buffer_width(self.obj)
+        return lib.get_buffer_width()
 
     def get_buffer_height(self):
-        return lib.get_buffer_height(self.obj)
+        return lib.get_buffer_height()
 
-    def set_stop_loop(self, stop):
-        lib.phxgrabber_set_stop_loop(self.obj, stop)
+    def stop_loop(self):
+        lib.stop_looping()
+    def grab(self):
+        print("waiting for capture trigger")
 
+        # Wait for the loop thread to exit
+        t0 = time.perf_counter()
+        lib.access_buffer()
+
+        # Get the buffer details
+        buffer_address = lib.get_buffer_address()
+        print(buffer_address)
+        buffer_width = lib.get_buffer_width()
+        buffer_height = lib.get_buffer_height()
+
+        if buffer_address:
+            # Convert the buffer to a NumPy array
+            buffer_size = buffer_width * buffer_height
+            buffer_array = np.ctypeslib.as_array(buffer_address, shape=(buffer_size,))
+            self.buffer_image = buffer_array.reshape((buffer_height, buffer_width))
+
+        else:
+            print("Buffer address is NULL")
+
+    def show_image(self):
+        plt.figure()
+        plt.imshow(self.buffer_image)
+        print(f"npmax = {np.max(self.buffer_image)}")
+        plt.show()
 # Example usage
 if __name__ == '__main__':
     grabber = PHXGrabberInterface()
@@ -94,9 +128,10 @@ if __name__ == '__main__':
     # Wait for some time before setting stop_loop to true
     import time
     time.sleep(5)  # Wait for 5 seconds before stopping the loop
-
+    grabber.grab()
+    grabber.show_image()
     # Set stop_loop to true
-    grabber.close()
+    grabber.stop_loop()
 
     # Wait for the thread to finish
     open_thread.join()

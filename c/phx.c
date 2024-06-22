@@ -47,6 +47,11 @@
 volatile bool stop_loop = false;
 volatile bool read_buffer = false;
 volatile bool save_config = false;
+uint16_t* globalBuffer = NULL;
+/*this size used when transferring the capture buffer*/
+/*multiply by 2 if 14 or 16 bit image*/
+uint32_t globalBufferWidth = 1280;
+uint32_t globalBufferHeight = 1020;
 
 tCxpRegisters sCameraRegs;
 tPhxLive       sPhxLive;                                 /* User defined event context */
@@ -76,11 +81,7 @@ ui32           dwBufferCount = 1;
 tFlag          fCameraIsCxp = FALSE;
 tFlag          fIsCxpCameraDiscovered = FALSE;
 
-uint16_t* globalBuffer = NULL;
-/*this size used when transferring the capture buffer*/
-/*multiply by 2 if 14 or 16 bit image*/
-uint32_t globalBufferWidth = 1280;
-uint32_t globalBufferHeight = 1020;
+
 /* Function to get the buffer address */
 
 /* Function to get the buffer address */

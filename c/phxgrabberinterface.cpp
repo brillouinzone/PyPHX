@@ -18,39 +18,31 @@
 
 
 
-///*Globals*/
-//volatile bool stop_loop = false;
-//volatile bool read_buffer = false;
-//volatile bool save_config = false;
-//uint16_t* globalBuffer = NULL;
-///*this size used when transferring the capture buffer*/
-///*multiply by 2 if 14 or 16 bit image*/
-//uint32_t globalBufferWidth = 1280;
-//uint32_t globalBufferHeight = 1020;
+
 ///* Function to get the buffer address */
 
 /* Function to get the buffer address */
-uint16_t* PHXGrabberInterface::get_buffer_address() {
-    return globalBuffer;
-}
+//uint16_t* PHXGrabberInterface::get_buffer_address() {
+//    return globalBuffer;
+//}
+//
+///* Function to get the buffer width */
+//uint32_t PHXGrabberInterface::get_buffer_width() {
+//    return globalBufferWidth;
+//}
+//
+///* Function to get the buffer height */
+//uint32_t PHXGrabberInterface::get_buffer_height() {
+//    return globalBufferHeight;
+//}
 
-/* Function to get the buffer width */
-uint32_t PHXGrabberInterface::get_buffer_width() {
-    return globalBufferWidth;
-}
-
-/* Function to get the buffer height */
-uint32_t PHXGrabberInterface::get_buffer_height() {
-    return globalBufferHeight;
-}
-
-void PHXGrabberInterface::setStopLoop(volatile bool* stop) {
-    stop_loop = stop;
-    printf("DLL received stop loop command from external code\n");
-}
-
-// Add the method declaration to the class
-void setStopLoop(volatile bool* stop);
+//void PHXGrabberInterface::setStopLoop(volatile bool* stop) {
+//    stop_loop = stop;
+//    printf("DLL received stop loop command from external code\n");
+//}
+//
+//// Add the method declaration to the class
+//void setStopLoop(volatile bool* stop);
 
 /* Create a channel handle */
 static void phxlive_callback(tHandle hCamera, ui32 dwInterruptMask, void* pvParams) {
@@ -149,15 +141,7 @@ void grabberErrorHandler(const char* pszFnName, etStat eErrCode, const char* psz
     //messageOutput(_lastError + "\nAborting...\n");
 }
 int PHXGrabberInterface::live(char* file) {
-    return ::live(
-        file,
-        globalBuffer,
-        globalBufferWidth,
-        globalBufferHeight,
-        &stop_loop,
-        &read_buffer,
-        &save_config
-    );
+    return ::live(file);
 }
 bool PHXGrabberInterface::configureGrabberLegacy() {
 
@@ -390,6 +374,8 @@ void PHXGrabberInterface::releaseGrabber() {
     if (hBuffer1) PDL_BufferDestroy((tPHX*)&hBuffer1);
     if (hBuffer2) PDL_BufferDestroy((tPHX*)&hBuffer2);
 
+
+
     // free display
     if (hDisplay) PDL_DisplayDestroy((tPHX*)&hDisplay);
 
@@ -438,14 +424,14 @@ void phxgrabber_set_event_counter_usage(PHXGrabberInterface* handle, int useEven
     handle->setEventCounterUsage(useEventCounter != 0);
 }
 
-uint16_t* get_buffer_address(PHXGrabberInterface* handle) {
-    return handle->get_buffer_address();
-}
-
-uint32_t get_buffer_width(PHXGrabberInterface* handle) {
-    return handle->get_buffer_width();
-}
-
-uint32_t get_buffer_height(PHXGrabberInterface* handle) {
-    return handle->get_buffer_height();
-}
+//uint16_t* get_buffer_address(PHXGrabberInterface* handle) {
+//    return handle->get_buffer_address();
+//}
+//
+//uint32_t get_buffer_width(PHXGrabberInterface* handle) {
+//    return handle->get_buffer_width();
+//}
+//
+//uint32_t get_buffer_height(PHXGrabberInterface* handle) {
+//    return handle->get_buffer_height();
+//}

@@ -1,5 +1,6 @@
 from PyPHX import *
 import os
+import time
 
 # localpath= os.path.dirname(os.path.realpath(__file__))
 localpath = os.getcwd()
@@ -16,3 +17,11 @@ try:
 
 except Exception as e:
     print(e)
+
+time.sleep(1)
+phxdll.grab()
+phxdll.show_image()
+phxdll.Close()
+
+
+

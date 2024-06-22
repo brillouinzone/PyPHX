@@ -109,6 +109,7 @@ class PyPHX:
         self.phx_lib.access_buffer()
         # Get the buffer details
         buffer_address = self.phx_lib.get_buffer_address()
+        print(buffer_address)
         buffer_width = self.phx_lib.get_buffer_width()
         buffer_height = self.phx_lib.get_buffer_height()
 
