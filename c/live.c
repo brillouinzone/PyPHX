@@ -79,9 +79,9 @@ int phxlive(
     uint16_t* globalBuffer, 
     uint32_t globalBufferWidth,
     uint32_t globalBufferHeight, 
-    bool stop_loop, 
-    bool read_buffer, 
-    bool save_config
+    volatile bool* stop_loop,
+    volatile bool* read_buffer,
+    volatile bool* save_config
 )
 {
     etStat         eStat = PHX_OK;      /* Status variable */
@@ -296,8 +296,8 @@ int phxlive(
     /* Continue processing data until the user presses a key in the console window
      * or a FIFO overflow is detected
      */
-    printf("Press a key to exit\n");
-    while (!PhxCommonKbHit() && !sPhxLive.fFifoOverflow) {
+    int c = 0;
+    while (!PhxCommonKbHit() && !sPhxLive.fFifoOverflow ) {
         stImageBuff stBuffer;
 
         /* Wait here until either:

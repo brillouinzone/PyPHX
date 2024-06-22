@@ -45,8 +45,8 @@ uint32_t get_buffer_width(PHXGrabberHandle handle) {
 uint32_t get_buffer_height(PHXGrabberHandle handle) {
     return static_cast<PHXGrabberInterface*>(handle)->get_buffer_height();
 }
-
-void phxgrabber_set_stop_loop(PHXGrabberHandle handle, int stop) {
-    static_cast<PHXGrabberInterface*>(handle)->stop_loop = stop != 0;
-    printf("dll received stop loop command from external code \n");
-}
+//access the boolan like a static int
+//void phxgrabber_set_stop_loop(PHXGrabberHandle handle, int stop) {
+//    static_cast<PHXGrabberInterface*>(handle)->stop_loop = stop != 0;
+//    printf("dll received stop loop command from external code \n");
+//}

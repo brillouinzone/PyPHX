@@ -15,9 +15,9 @@ extern "C" {
         uint16_t* globalBuffer,
         uint32_t globalBufferWidth,
         uint32_t globalBufferHeight,
-        bool stop_loop,
-        bool read_buffer,
-        bool save_config
+    volatile bool* stop_loop,
+    volatile bool* read_buffer,
+    volatile bool* save_config
     );
 
 #ifdef __cplusplus

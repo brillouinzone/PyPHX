@@ -39,7 +39,6 @@ extern "C" {
 	DLL_EXPORT uint32_t get_buffer_width(PHXGrabberHandle handle);
 	DLL_EXPORT uint32_t get_buffer_height(PHXGrabberHandle handle);
 
-	DLL_EXPORT void phxgrabber_set_stop_loop(PHXGrabberHandle handle, int stop);
 
 #ifdef __cplusplus
 }

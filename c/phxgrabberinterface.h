@@ -18,6 +18,7 @@
 #include <string>
 #include "phx_os.h"
 #include "common/common.h"
+#include <atomic>
 
 
 // Define an application specific structure to hold user information
@@ -38,6 +39,9 @@ public:
     std::string lastError() const;
 
     void setEventCounterUsage(bool useEventCounter);
+
+    void setStopLoop(volatile bool* stop);
+
     /*Globals*/
     bool stop_loop = false;
     bool read_buffer = false;

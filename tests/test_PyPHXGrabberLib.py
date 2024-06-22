@@ -42,9 +42,7 @@ lib.get_buffer_width.argtypes = [c_void_p]
 lib.get_buffer_height.restype = c_uint32
 lib.get_buffer_height.argtypes = [c_void_p]
 
-# Assuming we have a function to set the stop_loop variable
-lib.phxgrabber_set_stop_loop.restype = None
-lib.phxgrabber_set_stop_loop.argtypes = [c_void_p, c_int]
+
 
 # Create a wrapper class in Python
 class PHXGrabberInterface:
@@ -98,7 +96,7 @@ if __name__ == '__main__':
     time.sleep(5)  # Wait for 5 seconds before stopping the loop
 
     # Set stop_loop to true
-    grabber.set_stop_loop(True)
+    grabber.close()
 
     # Wait for the thread to finish
     open_thread.join()
@@ -118,3 +116,4 @@ if __name__ == '__main__':
     print("Buffer Height:", buffer_height)
 
     grabber.close()
+

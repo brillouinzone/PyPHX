@@ -43,6 +43,15 @@ uint32_t PHXGrabberInterface::get_buffer_width() {
 uint32_t PHXGrabberInterface::get_buffer_height() {
     return globalBufferHeight;
 }
+
+void PHXGrabberInterface::setStopLoop(volatile bool* stop) {
+    stop_loop = stop;
+    printf("DLL received stop loop command from external code\n");
+}
+
+// Add the method declaration to the class
+void setStopLoop(volatile bool* stop);
+
 /* Create a channel handle */
 static void phxlive_callback(tHandle hCamera, ui32 dwInterruptMask, void* pvParams) {
     tPhxLive* psPhxLive = (tPhxLive*)pvParams;
@@ -145,9 +154,9 @@ int PHXGrabberInterface::live(char* file) {
         globalBuffer,
         globalBufferWidth,
         globalBufferHeight,
-        stop_loop,
-        read_buffer,
-        save_config
+        &stop_loop,
+        &read_buffer,
+        &save_config
     );
 }
 bool PHXGrabberInterface::configureGrabberLegacy() {
