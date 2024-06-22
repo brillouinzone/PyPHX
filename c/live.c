@@ -35,6 +35,7 @@
 ///*Globals*/
 /*Globals*/
 volatile bool stop_loop = false;
+volatile bool prevent_overwrite = false;
 volatile bool read_buffer = false;
 volatile bool save_config = false;
 uint16_t* globalBuffer = NULL;
@@ -44,7 +45,10 @@ uint32_t globalBufferWidth = 1280;
 uint32_t globalBufferHeight = 1020;
 
 /* Function to get the buffer address */
-
+_declspec(dllexport) void lock_buffer(volatile bool value) {
+    prevent_overwrite = value;
+    printf("set mem lock to %s \n", prevent_overwrite ? "true" : "false");
+}
 /* Function to get the buffer address */
 __declspec(dllexport) uint16_t* get_buffer_address() {
     return globalBuffer;
@@ -124,7 +128,7 @@ int phxlive(
     tHandle        hCamera = 0;           /* Camera handle */
     tPHX           hDisplay = 0;           /* Display handle */
     tPHX* phCaptureBuffers = NULL;        /* Capture buffer handle array */
-    tPHX           hDisplayBuffer = 0;           /* Display buffer handle */
+    //tPHX           hDisplayBuffer = 0;           /* Display buffer handle */
     tPHX           hBuffHandle;
     tFlag          fDebayer = FALSE;
     ui32           dwBufferReadyLast = 0;           /* Previous BufferReady count value */
@@ -278,16 +282,16 @@ int phxlive(
 
 #if defined _PHX_DISPLAY
     /* We create our display with a NULL hWnd, this will automatically create an image window. */
-    eStat = PDL_DisplayCreate(&hDisplay, NULL, hCamera, PhxCommonDisplayErrorHandler);
-    if (PHX_OK != eStat) goto Error;
+    //eStat = PDL_DisplayCreate(&hDisplay, NULL, hCamera, PhxCommonDisplayErrorHandler);
+    //if (PHX_OK != eStat) goto Error;
 
-    /* We create a display buffer (indirect) */
-    eStat = PDL_BufferCreate(&hDisplayBuffer, hDisplay, (etBufferMode)PDL_BUFF_SYSTEM_MEM_INDIRECT);
-    if (PHX_OK != eStat) goto Error;
+    ///* We create a display buffer (indirect) */
+    //eStat = PDL_BufferCreate(&hDisplayBuffer, hDisplay, (etBufferMode)PDL_BUFF_SYSTEM_MEM_INDIRECT);
+    //if (PHX_OK != eStat) goto Error;
 
-    /* Initialise the display, this associates the display buffer with the display */
-    eStat = PDL_DisplayInit(hDisplay);
-    if (PHX_OK != eStat) goto Error;
+    ///* Initialise the display, this associates the display buffer with the display */
+    //eStat = PDL_DisplayInit(hDisplay);
+    //if (PHX_OK != eStat) goto Error;
 
 #endif
 
@@ -337,68 +341,7 @@ int phxlive(
     }
 
     int c = 0;
-//    while (!PhxCommonKbHit() && !sPhxLive.fFifoOverflow && !stop_loop ) {
-//        stImageBuff stBuffer;
-//
-//        /* Wait here until either:
-//         * (a) The user aborts the wait by pressing a key in the console window
-//         * (b) The BufferReady event occurs indicating that the image is complete
-//         * (c) The FIFO overflow event occurs indicating that the image is corrupt.
-//         * Keep calling the sleep function to avoid burning CPU cycles
-//         */
-//        while (!PhxCommonKbHit() && !sPhxLive.fBufferReady && !sPhxLive.fFifoOverflow) {
-//            _PHX_SleepMs(10);
-//        }
-//
-//        if (dwBufferReadyLast != sPhxLive.dwBufferReadyCount) {
-//            ui32 dwStaleBufferCount;
-//            /* If the processing is too slow to keep up with acquisition,
-//             * then there may be more than 1 buffer ready to process.
-//             * The application can either be designed to process all buffers
-//             * knowing that it will catch up, or as here, throw away all but the
-//             * latest
-//             */
-//            dwStaleBufferCount = sPhxLive.dwBufferReadyCount - dwBufferReadyLast;
-//            dwBufferReadyLast += dwStaleBufferCount;
-//
-//            /* Throw away all but the last image */
-//            if (1 < dwStaleBufferCount) {
-//                do {
-//                    eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
-//                    if (PHX_OK != eStat) goto Error;
-//                    dwStaleBufferCount--;
-//                } while (dwStaleBufferCount > 1);
-//            }
-//        }
-//
-//        sPhxLive.fBufferReady = FALSE;
-//
-//        /* Get the info for the last acquired buffer */
-//        eStat = PHX_StreamRead(hCamera, PHX_BUFFER_GET, &stBuffer);
-//
-//        /* Process the newly acquired buffer,
-//         * which in this simple example is a call to display the data.
-//         * For our display function we use the pvContext member variable to
-//         * pass a display buffer handle.
-//         * Alternatively the actual video data can be accessed at stBuffer.pvAddress
-//         */
-//        hBuffHandle = (tPHX)stBuffer.pvContext;
-//
-//        /* This copies/converts data from the direct capture buffer to the indirect display buffer */
-//        eStat = PIL_Convert(hBuffHandle, hDisplayBuffer);
-//        if (PHX_OK != eStat)
-//            printf("\nFailed to convert buffers\n");
-//
-//#if defined _PHX_DISPLAY
-//        if (PHX_OK == eStat)
-//            PDL_BufferPaint(hDisplayBuffer);
-//#else
-//        printf("EventCount = %5d\r", sPhxLive.dwBufferReadyCount);
-//#endif
-//
-//        /* Having processed the data, release the buffer ready for further image data */
-//        PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
-//    }
+
     while (!sPhxLive.fFifoOverflow && !stop_loop) {
         stImageBuff    stBuffer;
         /* Wait here until either:
@@ -410,11 +353,6 @@ int phxlive(
 
         while (!sPhxLive.fBufferReady && !sPhxLive.fFifoOverflow) {
             _PHX_SleepMs(10);
-            /*printf("fBufferReady: %d, fFifoOverflow: %d\n",
-                sPhxLive.fBufferReady, sPhxLive.fFifoOverflow);*/
-                //    _PHX_SleepMs(10);
-                //    printf("fBufferReady: %d, fFifoOverflow: %d, stop_loop: %d\n",
-                //        sPhxLive.fBufferReady, sPhxLive.fFifoOverflow, stop_loop);
         }
         //printf("\n buffer ready \n");
         if (dwBufferReadyLast != sPhxLive.dwBufferReadyCount) {
@@ -455,24 +393,25 @@ int phxlive(
          */
         hBuffHandle = (tPHX)stBuffer.pvContext;
 
-        /* This copies/converts data from the direct capture buffer to the indirect display buffer */
-        eStat = PIL_Convert(hBuffHandle, hDisplayBuffer);
-        if (PHX_OK != eStat)
-            printf("\nFailed to convert buffers\n");
-
-#if defined _PHX_DISPLAY
-        if (PHX_OK == eStat)
-            PDL_BufferPaint(hDisplayBuffer);
-#else
-        printf("EventCount = %5d\r", sPhxLive.dwBufferReadyCount);
-#endif
-
-        if (read_buffer) {
-            printf("buffer accessed\n");
-            memcpy(globalBuffer, stBuffer.pvAddress, globalBufferWidth * globalBufferHeight * sizeof(uint16_t));
-            //memcpy(globalBuffer, psImageBuffers[0].pvAddress, globalBufferWidth*globalBufferHeight);
-            read_buffer = false;
+        ///* This copies/converts data from the direct capture buffer to the indirect display buffer */
+        //eStat = PIL_Convert(hBuffHandle, hDisplayBuffer);
+        //if (PHX_OK != eStat)
+        //    printf("\nFailed to convert buffers\n");
+//
+//#if defined _PHX_DISPLAY
+//        if (PHX_OK == eStat)
+//            PDL_BufferPaint(hDisplayBuffer);
+//#else
+//        printf("EventCount = %5d\r", sPhxLive.dwBufferReadyCount);
+//#endif
+        if (!prevent_overwrite) {
+            if (read_buffer) {
+                memcpy(globalBuffer, stBuffer.pvAddress, globalBufferWidth * globalBufferHeight * sizeof(uint16_t));
+                //memcpy(globalBuffer, psImageBuffers[0].pvAddress, globalBufferWidth*globalBufferHeight);
+                read_buffer = false;
+            }
         }
+
         /* Having processed the data, release the buffer ready for further image data */
         eStat = PHX_StreamRead(hCamera, PHX_BUFFER_RELEASE, NULL);
         if (PHX_OK != eStat)
@@ -491,7 +430,7 @@ int phxlive(
         //printf("loop canceled externally,..Aborting\n");
         goto Error;
     }
-    printf("\n");
+    //printf("\n");
 
     /* In this simple example we abort the processing loop on an error condition (FIFO overflow).
      * However handling of this condition is application specific, and generally would involve
@@ -516,7 +455,7 @@ Error:
 
 #if defined _PHX_DISPLAY
     /* Free our display resources */
-    if (hDisplayBuffer) PDL_BufferDestroy(&hDisplayBuffer);
+    //if (hDisplayBuffer) PDL_BufferDestroy(&hDisplayBuffer);
 
     /* Destroy our display */
     if (hDisplay) PDL_DisplayDestroy(&hDisplay);

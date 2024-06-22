@@ -82,6 +82,7 @@ static void handleInterruptEvents(tHandle hCamera, ui32 interruptMask, void* use
 PHXGrabberInterface::PHXGrabberInterface() {
     _isOpened = false;
     _useEventCounter = false;
+    _lastError = "No Error";
 }
 
 PHXGrabberInterface::~PHXGrabberInterface() {
@@ -90,8 +91,12 @@ PHXGrabberInterface::~PHXGrabberInterface() {
 
 void PHXGrabberInterface::open(const std::string& _cameraConfigFile) {
     if (isOpened()) {
-        messageOutput("Connection already Opened!");
+        messageOutput("Connection already Opened!\n");
         return;
+    }
+    else {
+        messageOutput("Opening new connection!\n");
+        _isOpened = true; // Ensure _isOpened is set to true on successful open
     }
     printf("opening grabber interface \n");
 
@@ -104,8 +109,9 @@ void PHXGrabberInterface::open(const std::string& _cameraConfigFile) {
  //   if (isOpened())
    //     oState = livePicture();
 
-    if (!oState)
+    if (!oState) {
         messageOutput(_lastError + "\nAborting...\n");
+    }
 
     releaseGrabber();
 }
@@ -273,16 +279,6 @@ bool PHXGrabberInterface::configureGrabber() {
         _lastError = "starting capture error";
         return false;
     }
-    //printf("final capture eCaptureFormat is %u \n", eCaptureFormat);
-    //printf("PHX_CAM_SRC_DEPTH %u \n", dwCamSrcDepth);
-    //printf("PHX_ACQ_NUM_BUFFERS=%u\n", dwBufferCount);  // Use %u for unsigned integers
-    //printf("initial capture eCaptureFormat is %u \n", eCaptureFormat);
-    //printf("roi_width=%u\n", dwImageWidth);  // Use %u for unsigned integers
-    //printf("roi_height=%u\n", dwImageHeight);  // Use %u for unsigned integers
-    //printf("active_width=%u\n", w);  // Use %u for unsigned integers
-    //printf("roi_height=%u\n", h);  // Use %u for unsigned integers
-    //printf("phx_buf_height=%u\n", dwBufferHeight);  // Use %u for unsigned integers
-    //printf("phx_buf_width=%u\n", dwBufferWidth);  // Use %u for unsigned integers
 
     return true;
 }

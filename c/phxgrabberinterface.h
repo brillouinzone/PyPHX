@@ -42,24 +42,11 @@ public:
 
     void setStopLoop(volatile bool* stop);
 
-    ///*Globals*/
-    //bool stop_loop = false;
-    //bool read_buffer = false;
-    //bool save_config = false;
-    //uint16_t* globalBuffer = NULL;
-    ///*this size used when transferring the capture buffer*/
-    ///*multiply by 2 if 14 or 16 bit image*/
-    //uint32_t globalBufferWidth = 1280;
-    //uint32_t globalBufferHeight = 1020;
-    //uint16_t* get_buffer_address();
-    //uint32_t get_buffer_width();
-    //uint32_t get_buffer_height();
-
 
 private:
     int nStatus;
     std::string _cameraConfigFile;
-    std::string _lastError;
+    std::string _lastError = "no error \n";
     bool _isOpened;
     bool _useEventCounter;
     etParamValue eBoardNumber = PHX_BOARD_NUMBER_1;

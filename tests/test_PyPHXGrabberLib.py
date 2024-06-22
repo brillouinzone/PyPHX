@@ -48,18 +48,33 @@ lib.get_buffer_height.restype = c_uint32
 lib.stop_looping.argtypes = []
 lib.stop_looping.restype = None
 
+lib.lock_buffer.argtypes = [ctypes.c_bool]
+
 lib.access_buffer.argtypes = []
 lib.access_buffer.restype = None
+
+
 # Create a wrapper class in Python
 class PHXGrabberInterface:
-    def __init__(self):
+    def __init__(self, camfile):
         self.obj = lib.create_phxgrabber()
-
+        self.camfile = camfile
+        self.im_height = lib.get_buffer_height()
+        self.im_width = lib.get_buffer_width()
+        self.buffer_image = np.zeros((self.im_height, self.im_width))
+        self.capture_thread = threading.Thread(target=self.config_and_stream)
     def __del__(self):
         lib.destroy_phxgrabber(self.obj)
 
+    def config_and_stream(self):
+        lib.phxgrabber_open(self.obj, self.camfile.encode('utf-8'))
+        time.sleep(0.24)
+
     def open(self, camera_config_file):
         lib.phxgrabber_open(self.obj, camera_config_file.encode('utf-8'))
+        # wait a moment for all to initialize
+        # test the buffer access speed
+        time.sleep(1)
 
     def close(self):
         lib.phxgrabber_close(self.obj)
@@ -68,13 +83,14 @@ class PHXGrabberInterface:
         return lib.phxgrabber_is_opened(self.obj) != 0
 
     def last_error(self):
+        #todo:needs debugging
         return lib.phxgrabber_last_error(self.obj).decode('utf-8')
 
     def set_event_counter_usage(self, use_event_counter):
         lib.phxgrabber_set_event_counter_usage(self.obj, use_event_counter)
 
     def get_buffer_address(self):
-        #macro function prototypes
+        # macro function prototypes
 
         return lib.get_buffer_address()
 
@@ -84,10 +100,18 @@ class PHXGrabberInterface:
     def get_buffer_height(self):
         return lib.get_buffer_height()
 
-    def stop_loop(self):
+    def stop_stream(self):
         lib.stop_looping()
+        # Wait for the thread to finish
+        grabber.capture_thread.join()
+
+    def stream(self):
+        self.capture_thread.start()
+        time.sleep(0.1)
+
     def grab(self):
-        print("waiting for capture trigger")
+        # print("locking image buffer")
+        # lib.lock_buffer(True)
 
         # Wait for the loop thread to exit
         t0 = time.perf_counter()
@@ -95,7 +119,6 @@ class PHXGrabberInterface:
 
         # Get the buffer details
         buffer_address = lib.get_buffer_address()
-        print(buffer_address)
         buffer_width = lib.get_buffer_width()
         buffer_height = lib.get_buffer_height()
 
@@ -108,47 +131,73 @@ class PHXGrabberInterface:
         else:
             print("Buffer address is NULL")
 
+
+        # print("unlocking image buffer")
+        # lib.lock_buffer(False)
+
+    def grab_N_images(self,N):
+        images = np.zeros((grabber.im_height, grabber.im_width, N))
+        for i in range(N):
+            grabber.grab()
+            # 20 milliseconds of overhead here
+            images[:, :, i] = grabber.buffer_image
+            tdiff = time.perf_counter() - tic
+            # adjust to frame rate
+            time.sleep(.01)
+        return images
     def show_image(self):
         plt.figure()
         plt.imshow(self.buffer_image)
-        print(f"npmax = {np.max(self.buffer_image)}")
+        plt.title(f"latest img, npmax = {np.max(self.buffer_image)}")
         plt.show()
+
+
 # Example usage
 if __name__ == '__main__':
-    grabber = PHXGrabberInterface()
+    grabber = PHXGrabberInterface("Sens128016bit.pcf")
     print("initialized ok")
+    if grabber.is_opened():
+        print("Grabber is opened")
+    else:
+        print("Error:", grabber.last_error())
+    print("Initial Error Status:", grabber.last_error())
+    grabber.stream()
 
     # Run grabber.open() in a separate thread
-    def open_grabber():
-        grabber.open("Sens128016bit.pcf")
 
-    open_thread = threading.Thread(target=open_grabber)
-    open_thread.start()
+    images = np.zeros((grabber.im_height, grabber.im_width, 2))
+    tic = time.perf_counter()
+    tdiff = 0
+    for i in range(2):
+        grabber.grab()
+        # 20 milliseconds of overhead here
+        images[:, :, i] = grabber.buffer_image
+        tdiff = time.perf_counter() - tic
+        #adjust to frame rate
+        time.sleep(.01)
 
-    # Wait for some time before setting stop_loop to true
-    import time
-    time.sleep(5)  # Wait for 5 seconds before stopping the loop
-    grabber.grab()
-    grabber.show_image()
-    # Set stop_loop to true
-    grabber.stop_loop()
 
-    # Wait for the thread to finish
-    open_thread.join()
+    print(f"access in {1000 * tdiff:0.2f}ms \n")
+    grabber.show_image()  # shows the latest buffer image
+    plt.figure()
+    plt.imshow(images[:, :, 0] - images[:, :, 1])
+    plt.title(f"imd_diff, t(im1)-t(im2)={tdiff:0.2f}ms ")
+    plt.colorbar()
+    plt.show()
+
+
 
     if grabber.is_opened():
         print("Grabber is opened")
     else:
         print("Error:", grabber.last_error())
+    # Set stop_loop to true
 
-    # Access buffer information
-    buffer_address = grabber.get_buffer_address()
-    buffer_width = grabber.get_buffer_width()
-    buffer_height = grabber.get_buffer_height()
+    print("stopping stream")
+    grabber.stop_stream()
 
-    print("Buffer Address:", buffer_address)
-    print("Buffer Width:", buffer_width)
-    print("Buffer Height:", buffer_height)
-
+    if grabber.is_opened():
+        print("Grabber is opened")
+    else:
+        print("Error:", grabber.last_error())
     grabber.close()
-
