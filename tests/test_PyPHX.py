@@ -2,12 +2,7 @@ from PyPHX import *
 import os
 import time
 
-# localpath= os.path.dirname(os.path.realpath(__file__))
-localpath = os.getcwd()
-print(localpath)
-# Load the DLL
-dll_path = os.path.abspath(os.path.join(localpath,'..','c','PHX','x64','Release', 'phx.dll'))
-phxdll=PyPHXLive(libpath=dll_path)
+phxdll=PyPHXLive()
 #variables
 hCamera = tHandle()
 sPhxLive = tPhxLive()
