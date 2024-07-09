@@ -3,11 +3,14 @@
 from setuptools import setup, find_packages
 import os
 
-def find_files(directory, pattern):
+def find_files(directory, extensions):
+    """
+    Recursively find all files in directory with the given extensions.
+    """
     files = []
     for root, dirs, filenames in os.walk(directory):
         for filename in filenames:
-            if filename.endswith(pattern):
+            if any(filename.endswith(ext) for ext in extensions):
                 files.append(os.path.join(root, filename))
     return files
 
@@ -21,12 +24,12 @@ setup(
         # list your module's dependencies here
     ],
     package_data={
-        'PyPHX': ['c/*']  # Include all files in the 'c' directory within the 'PyPHX' package
+        'PyPHX': ['c/PHXGrabberLib/x64/Release/*', 'c/PHX/x64/Release/*']
     },
     data_files=[
-        ('c', find_files('c', '.dll')),  # Include all .dll files in the 'c' directory
-        ('c', find_files('c', '.c')),  # Include all .c files in the 'c' directory
-        ('c', find_files('c', '.h'))  # Include all .h files in the 'c' directory
+        ('c/PHX/x64/Release', find_files('c/PHX/x64/Release', ['.dll'])),
+        ('c/PHXGrabberLib/x64/Release', find_files('c/PHXGrabberLib/x64/Release', ['.dll'])),
+        ('c', find_files('c', ['.c', '.cpp', '.pro', '.pri', '.h']))
     ],
     entry_points={
         'console_scripts': [
