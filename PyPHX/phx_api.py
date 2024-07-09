@@ -8,8 +8,8 @@ import time
 class PyPHX:
     def __init__(self, libpath=None):
         if libpath is None:
-            raise ValueError("must supply a path to the phx_api.dll (create by compiling the phx_api.h with all .lib files linked.)")
-
+            module_path = os.path.dirname(__file__)
+            libpath = os.path.join(module_path, '..', 'c', 'PHX', 'x64', 'Release', 'phx.dll')
 
         # Function to check if a function exists in the DLL
         def check_function_exists(dll, func_name):
