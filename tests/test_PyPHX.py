@@ -18,10 +18,10 @@ try:
 except Exception as e:
     print(e)
 
-time.sleep(1)
-phxdll.grab()
-phxdll.show_image()
-phxdll.Close()
+# time.sleep(1)
+# phxdll.grab()
+# phxdll.show_image()
+# phxdll.Close()
 
 
 
