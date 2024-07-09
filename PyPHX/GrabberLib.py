@@ -6,10 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-localpath = os.getcwd()
-print(localpath)
 # Load the DLL
-dll_path = os.path.abspath(os.path.join(localpath, '..', 'c', 'PHXGrabberLib', 'x64', 'Release', 'PHXGrabberLib.dll'))
+# Determine the absolute path to the DLL file
+module_path = os.path.dirname(__file__)
+dll_path = os.path.abspath(os.path.join(module_path, '..', 'c', 'PHXGrabberLib', 'x64', 'Release', 'PHXGrabberLib.dll'))
 
 # Load the shared library
 lib = ctypes.CDLL(dll_path)

@@ -1,6 +1,15 @@
 # setup.py
 
 from setuptools import setup, find_packages
+import os
+
+def find_files(directory, pattern):
+    files = []
+    for root, dirs, filenames in os.walk(directory):
+        for filename in filenames:
+            if filename.endswith(pattern):
+                files.append(os.path.join(root, filename))
+    return files
 
 setup(
     name='PyPHX',
@@ -10,6 +19,14 @@ setup(
         'numpy>=1.18.0',  # Specify numpy as a required dependency
         'matplotlib>=3.1.0'
         # list your module's dependencies here
+    ],
+    package_data={
+        'PyPHX': ['c/*']  # Include all files in the 'c' directory within the 'PyPHX' package
+    },
+    data_files=[
+        ('c', find_files('c', '.dll')),  # Include all .dll files in the 'c' directory
+        ('c', find_files('c', '.c')),  # Include all .c files in the 'c' directory
+        ('c', find_files('c', '.h'))  # Include all .h files in the 'c' directory
     ],
     entry_points={
         'console_scripts': [

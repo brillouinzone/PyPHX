@@ -17,4 +17,6 @@ the root installation directory.
 Open the *.sln file located in the `c` directory. build the solution. The output 
 dll will be placed into the `build` folder. 
 
+The package contains two solutions. One will run a live image view, and the other is an interface to the Grabber Library
+
 Install the module with `pip install PyPHX`
