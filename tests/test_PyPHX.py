@@ -7,7 +7,7 @@ localpath = os.getcwd()
 print(localpath)
 # Load the DLL
 dll_path = os.path.abspath(os.path.join(localpath,'..','c','PHX','x64','Release', 'phx.dll'))
-phxdll=PyPHX(libpath=dll_path)
+phxdll=PyPHXLive(libpath=dll_path)
 #variables
 hCamera = tHandle()
 sPhxLive = tPhxLive()
