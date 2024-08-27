@@ -128,8 +128,11 @@ class PHXGrabberInterface:
             buffer_array = np.ctypeslib.as_array(buffer_address, shape=(buffer_size,))
             self.buffer_image = buffer_array.reshape((buffer_height, buffer_width))
 
+            #overhead for data transfer
+            time.sleep(.01)
         else:
             print("Buffer address is NULL")
+
 
 
         # print("unlocking image buffer")
