@@ -76,7 +76,7 @@ class PHXGrabberInterface:
         # test the buffer access speed
         time.sleep(1)
 
-    def close(self):
+    def phx_close(self):
         lib.phxgrabber_close(self.obj)
 
     def is_opened(self):
@@ -109,7 +109,7 @@ class PHXGrabberInterface:
         self.capture_thread.start()
         time.sleep(0.1)
 
-    def grab(self):
+    def phx_grab(self):
         # print("locking image buffer")
         # lib.lock_buffer(True)
 
@@ -138,10 +138,10 @@ class PHXGrabberInterface:
         # print("unlocking image buffer")
         # lib.lock_buffer(False)
 
-    def grab_N_images(self,N):
+    def phx_grab_N_images(self,N):
         images = np.zeros((self.im_height, self.im_width, N))
         for i in range(N):
-            self.grab()
+            self.phx_grab()
             # 20 milliseconds of overhead here
             images[:, :, i] = self.buffer_image
             # adjust to frame rate
