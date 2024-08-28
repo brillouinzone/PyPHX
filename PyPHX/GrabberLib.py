@@ -139,11 +139,11 @@ class PHXGrabberInterface:
         # lib.lock_buffer(False)
 
     def phx_grab_N_images(self,N):
-        images = np.zeros((self.im_height, self.im_width, N))
+        images = np.zeros((N,self.im_height, self.im_width))
         for i in range(N):
             self.phx_grab()
             # 20 milliseconds of overhead here
-            images[:, :, i] = self.buffer_image
+            images[i,:, :] = self.buffer_image
             # adjust to frame rate
             time.sleep(.01)
         return images
