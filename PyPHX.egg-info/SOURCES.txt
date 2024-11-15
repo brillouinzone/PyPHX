@@ -80,3 +80,8 @@ c/PHX/x64/Debug/PHX.dll
 c/PHX/x64/Release/PHX.dll
 c/common/common.c
 c/common/common.h
+tests/test.py
+tests/test_PyPHX.py
+tests/test_PyPHXGrabberLib.py
+tests/test_threading.py
+tests/test_threading2.py
