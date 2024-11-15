@@ -11,10 +11,12 @@ with `matplotlib`, or with the active silicon display libraries.
 
 
 ## Installation 
-Install the PHX_API SDK and configure environmental variables to point to 
-the root installation directory. 
+Install frame_grabber software to install the pheonix dlls into your windows/system32 folder 
+or point systme path to a directory containing the .dll files installed by the frame_grabber software. 
 
-Open the *.sln file located in the `c` directory. build the solution. The output 
+The .dll is included so you should be able to install without building new module .dll files. 
+
+Alternatively, build with the *.sln file located in the `c` directory. build the solution. The output 
 dll will be placed into the `build` folder. 
 
 The package contains two solutions. One will run a live image view, and the other is an interface to the Grabber Library
