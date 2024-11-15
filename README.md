@@ -21,4 +21,4 @@ dll will be placed into the `build` folder.
 
 The package contains two solutions. One will run a live image view, and the other is an interface to the Grabber Library
 
-Currently only pip install -e .`works
+Currently only pip install -e . works
