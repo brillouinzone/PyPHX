@@ -1,0 +1,23 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (PHX.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  phxgrabberinterface.cpp
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.h(15,1): warning C4005: '_PHX_WIN32': macro redefinition
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.h(15,1): message : '_PHX_WIN32' previously declared on the command line
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.h(48,17): warning C4251: 'PHXGrabberInterface::_cameraConfigFile': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'PHXGrabberInterface'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xstring(5300,29): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.h(49,17): warning C4251: 'PHXGrabberInterface::_lastError': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'PHXGrabberInterface'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xstring(5300,29): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.h(56,17): warning C4251: 'PHXGrabberInterface::cameraConfigFile': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'PHXGrabberInterface'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xstring(5300,29): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.cpp(171,20): warning C4101: 'sPhxLive': unreferenced local variable
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.cpp(169,32): warning C4101: 'eCamFormat': unreferenced local variable
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.cpp(169,44): warning C4101: 'eAcqType': unreferenced local variable
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.cpp(169,54): warning C4101: 'eBayCol': unreferenced local variable
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.cpp(169,20): warning C4101: 'eCamSrcCol': unreferenced local variable
+C:\Users\User\PycharmProjects\PyPHX\c\phxgrabberinterface.cpp(176,20): warning C4101: 'hBuffHandle': unreferenced local variable
+     Creating library C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHXGrabberLib.lib and object C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHXGrabberLib.exp
+  Generating code
+  2 of 186 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  PHXGrabberLib.vcxproj -> C:\Users\User\PycharmProjects\PyPHX\c\PHXGrabberLib\x64\Release\PHXGrabberLib.dll

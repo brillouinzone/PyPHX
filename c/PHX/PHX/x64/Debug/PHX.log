@@ -1,0 +1,3 @@
+﻿  common.c
+C:\Users\User\PycharmProjects\PyPHX\c\common\common.c(287,14): warning C4101: 'szDisplayName': unreferenced local variable
+  PHX.vcxproj -> C:\Users\User\PycharmProjects\PyPHX\c\PHX\x64\Debug\PHX.dll

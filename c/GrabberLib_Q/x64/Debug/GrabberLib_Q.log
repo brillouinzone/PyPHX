@@ -1,0 +1,17 @@
+﻿  Generate moc_predefs.h
+  MOC ../grabberconsolewidget.h
+  MOC ../grabberinterface.h
+  MOC ../grabberthread.h
+  grabberconsolewidget.cpp
+  grabberinterface.cpp
+C:\Users\User\PycharmProjects\PyPHX\c\common/common.c(287,14): warning C4101: 'szDisplayName': unreferenced local variable
+C:\Users\User\PycharmProjects\PyPHX\c\common/common.c(288,14): warning C4189: 'nSize': local variable is initialized but not referenced
+C:\Users\User\PycharmProjects\PyPHX\c\common/common.c(290,14): warning C4189: 'i': local variable is initialized but not referenced
+C:\Users\User\PycharmProjects\PyPHX\c\common/common.c(286,11): warning C4189: 'pszFunctionName': local variable is initialized but not referenced
+  grabberthread.cpp
+  main.cpp
+  moc_grabberconsolewidget.cpp
+  moc_grabberinterface.cpp
+  moc_grabberthread.cpp
+  Generating Code...
+  GrabberLib_Q.vcxproj -> C:\Users\User\PycharmProjects\PyPHX\c\GrabberLib_Q\x64\Debug\GrabberLib_Q.exe
